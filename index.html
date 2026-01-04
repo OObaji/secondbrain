@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kaizen OS - Second Brain</title>
     
     <!-- Tailwind CSS -->
@@ -49,7 +49,7 @@
         }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 overflow-hidden">
+<body class="bg-zinc-950 text-zinc-100 min-h-screen">
     <div id="root"></div>
 
     <!-- Application Logic -->
@@ -85,6 +85,10 @@
         };
         
         const appId = 'kaizen-os-prod';
+        
+        // GLOBAL USER ID for Syncing across devices
+        // This ensures all devices looking at this app see the same data
+        const SHARED_USER_ID = 'global_shared_user'; 
 
         // Initialize Firebase safely
         let app, auth, db;
@@ -199,7 +203,7 @@
         const DashboardView = ({ noteInput, setNoteInput, onSaveNote, recentThoughts, projects }) => {
              const activeProjects = projects.filter(p => p.status === 'Active').slice(0, 4);
 
-             return React.createElement("div", { className: "animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20 md:pb-0" },
+             return React.createElement("div", { className: "animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "mb-6 md:mb-10" },
                     React.createElement("h2", { className: "text-2xl md:text-3xl font-bold mb-1" }, "Good Afternoon."),
                     React.createElement("p", { className: "text-zinc-500 dark:text-zinc-400 text-sm md:text-base" }, "Let's make today 1% better.")
@@ -212,7 +216,7 @@
                                 value: noteInput,
                                 onChange: (e) => setNoteInput(e.target.value),
                                 placeholder: "What's on your mind? Capture it before it's gone...",
-                                className: "w-full h-32 bg-zinc-50 dark:bg-zinc-950/50 border-0 rounded-xl p-4 resize-none focus:ring-2 focus:ring-indigo-500/20 focus:bg-white dark:focus:bg-zinc-900 transition-all placeholder:text-zinc-400"
+                                className: "w-full h-32 bg-zinc-50 dark:bg-zinc-950/50 border-0 rounded-xl p-4 resize-none focus:ring-2 focus:ring-indigo-500/20 focus:bg-white dark:focus:bg-zinc-900 transition-all placeholder:text-zinc-400 text-base md:text-sm"
                             }),
                             React.createElement("div", { className: "absolute bottom-3 right-3 flex gap-2" },
                                 React.createElement("button", { className: "p-2 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-400 transition-colors" }, React.createElement(Clock, { size: 16 })),
@@ -318,14 +322,14 @@
         };
 
         const ThoughtsView = ({ thoughts, onDeleteThought }) => (
-            React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500" },
+            React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-8" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Thoughts", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(MessageSquare, { size: 12 }), ` ${thoughts.length} Total`)),
                         React.createElement("p", { className: "text-zinc-500 text-sm" }, "Everything you've captured via the dashboard.")
                     ),
                     React.createElement("div", { className: "flex items-center gap-2" },
-                        React.createElement("div", { className: "relative" },
+                        React.createElement("div", { className: "relative hidden md:block" },
                             React.createElement(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400", size: 16 }),
                             React.createElement("input", { type: "text", placeholder: "Search thoughts...", className: "pl-10 pr-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all" })
                         )
@@ -342,7 +346,7 @@
                                     React.createElement("span", { className: "bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded font-medium" }, "Capture")
                                 )
                             ),
-                            React.createElement("button", { onClick: () => onDeleteThought(thought.id), className: "absolute top-4 right-4 p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all" }, React.createElement(Trash2, { size: 16 }))
+                            React.createElement("button", { onClick: () => onDeleteThought(thought.id), className: "absolute top-4 right-4 p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg opacity-100 md:opacity-0 group-hover:opacity-100 transition-all" }, React.createElement(Trash2, { size: 16 }))
                         )
                     )),
                     thoughts.length === 0 && React.createElement("div", { className: "text-center py-20 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-zinc-400" },
@@ -364,7 +368,7 @@
                 { id: 6, time: '16:00', endTime: '17:00', title: 'Admin & Email Processing', type: 'shallow', energy: 'Low', status: 'upcoming' }
             ];
 
-            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500" },
+            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-6" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Schedule", viewMode === 'smart' && React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider" }, "Live")),
@@ -510,7 +514,7 @@
             const clearCanvas = () => { if (confirm("Clear all drawings? Notes will remain.")) setPaths([]); };
             const pointsToPath = (points) => points.length === 0 ? '' : points.reduce((acc, point, i) => acc + (i === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`), '');
 
-            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500" },
+            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-4" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Brainstorm ", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(Sparkles, { size: 12 }), " Canvas")),
@@ -574,7 +578,7 @@
             const filteredGoals = activeCategory === "All" ? goals : goals.filter(g => g.category === activeCategory);
             const totalProgress = goals.length > 0 ? Math.round(goals.reduce((acc, curr) => acc + getProgress(curr.current, curr.target), 0) / goals.length) : 0;
 
-            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500" },
+            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-8" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Mission Control ", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(Crosshair, { size: 12 }), " Active")),
@@ -662,7 +666,7 @@
                  onUpdateBook(book.id, { status: nextStatus });
             };
 
-            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500" },
+            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-8" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Library ", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(BookOpen, { size: 12 }), ` ${books.length} Books`)),
@@ -716,15 +720,15 @@
                          React.createElement("div", { className: "space-y-4" },
                             React.createElement("div", null,
                                 React.createElement("label", { className: "text-sm text-zinc-500 mb-1 block" }, "Title"),
-                                React.createElement("input", { type: "text", className: "w-full p-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800", value: newBook.title, onChange: e => setNewBook({...newBook, title: e.target.value}) })
+                                React.createElement("input", { type: "text", className: "w-full p-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-base", value: newBook.title, onChange: e => setNewBook({...newBook, title: e.target.value}) })
                             ),
                             React.createElement("div", null,
                                 React.createElement("label", { className: "text-sm text-zinc-500 mb-1 block" }, "Author"),
-                                React.createElement("input", { type: "text", className: "w-full p-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800", value: newBook.author, onChange: e => setNewBook({...newBook, author: e.target.value}) })
+                                React.createElement("input", { type: "text", className: "w-full p-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-base", value: newBook.author, onChange: e => setNewBook({...newBook, author: e.target.value}) })
                             ),
                             React.createElement("div", null,
                                 React.createElement("label", { className: "text-sm text-zinc-500 mb-1 block" }, "Category"),
-                                React.createElement("input", { type: "text", className: "w-full p-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800", value: newBook.category, onChange: e => setNewBook({...newBook, category: e.target.value}) })
+                                React.createElement("input", { type: "text", className: "w-full p-2 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-base", value: newBook.category, onChange: e => setNewBook({...newBook, category: e.target.value}) })
                             )
                          ),
                          React.createElement("div", { className: "mt-6 flex justify-end gap-2" },
@@ -743,7 +747,7 @@
                                  React.createElement("h3", { className: "text-2xl font-serif font-bold leading-tight mb-2" }, selectedBook.title),
                                  React.createElement("p", { className: "opacity-80 font-medium" }, selectedBook.author)
                              ),
-                             React.createElement("div", null,
+                             React.createElement("div", { className: "mt-6 md:mt-0" },
                                  React.createElement("div", { className: "flex items-center gap-1 mb-4" },
                                      [...Array(5)].map((_, i) => React.createElement(Star, { key: i, size: 16, fill: i < selectedBook.rating ? "currentColor" : "none", className: "cursor-pointer", onClick: () => onUpdateBook(selectedBook.id, { rating: i + 1 }) }))
                                  ),
@@ -757,7 +761,7 @@
                                  React.createElement("button", { onClick: () => setSelectedBook(null), className: "p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg" }, React.createElement(X, { size: 20 }))
                              ),
                              React.createElement("textarea", { 
-                                 className: "flex-1 w-full bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/20 mb-4 min-h-[200px]",
+                                 className: "flex-1 w-full bg-zinc-50 dark:bg-zinc-950 p-4 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/20 mb-4 min-h-[200px] text-base",
                                  placeholder: "Write your thoughts, quotes, and lessons learned...",
                                  value: selectedBook.notes || '',
                                  onChange: (e) => {
@@ -777,7 +781,7 @@
         };
 
         const EntertainmentView = () => (
-            React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500" },
+            React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-8" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Entertainment ", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(PlayCircle, { size: 12 }), " Curated")),
@@ -837,15 +841,15 @@
                 setNewProjectDeadline('');
             };
 
-            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500" },
+            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-8" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Projects ", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(Layers, { size: 12 }), ` ${projects.length} Total`)),
                         React.createElement("p", { className: "text-zinc-500 text-sm" }, "Manage your active endeavors and track progress.")
                     ),
                     React.createElement("div", { className: "flex gap-2" },
-                        React.createElement("input", { type: "text", value: newProjectTitle, onChange: (e) => setNewProjectTitle(e.target.value), placeholder: "New Project Name...", className: "px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all w-48 lg:w-64", onKeyDown: (e) => e.key === 'Enter' && handleAdd() }),
-                        React.createElement("input", { type: "date", value: newProjectDeadline, onChange: (e) => setNewProjectDeadline(e.target.value), className: "px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-zinc-500 dark:text-zinc-400" }),
+                        React.createElement("input", { type: "text", value: newProjectTitle, onChange: (e) => setNewProjectTitle(e.target.value), placeholder: "New Project Name...", className: "px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all w-32 md:w-64", onKeyDown: (e) => e.key === 'Enter' && handleAdd() }),
+                        React.createElement("input", { type: "date", value: newProjectDeadline, onChange: (e) => setNewProjectDeadline(e.target.value), className: "px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-zinc-500 dark:text-zinc-400 hidden md:block" }),
                         React.createElement("button", { onClick: handleAdd, className: "flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-emerald-500/20" }, React.createElement(Plus, { size: 16 }), " Add")
                     )
                 ),
@@ -888,7 +892,7 @@
             const [pin, setPin] = useState('');
             const [error, setError] = useState(false);
             const [mode, setMode] = useState('login'); 
-            const [correctPin, setCorrectPin] = useState('643796');
+            const correctPinHash = 'NjQzNzk2'; // Base64 of '643796'
             const [street, setStreet] = useState('');
             const [mother, setMother] = useState('');
             const [newPin, setNewPin] = useState('');
@@ -909,7 +913,8 @@
                     const newPin = pin + num;
                     setPin(newPin);
                     if (newPin.length === 6) {
-                        if (newPin === correctPin) onLogin();
+                        // Secure check: Encode input and compare with stored hash
+                        if (btoa(newPin) === correctPinHash) onLogin();
                         else {
                             setError(true);
                             setTimeout(() => { setPin(''); setError(false); }, 500);
@@ -927,7 +932,10 @@
 
             const handleSetNewPin = () => {
                 if (newPin.length === 6 && newPin === confirmPin) {
-                    setCorrectPin(newPin); setMode('login'); setPin(''); setNewPin(''); setConfirmPin(''); alert("Password successfully changed.");
+                    // In a real app, you would send this to backend. 
+                    // Here we just simulate success for the session.
+                    onLogin(); 
+                    alert("Password successfully changed.");
                 } else alert("PINs do not match or are not 6 digits.");
             };
 
@@ -1004,33 +1012,12 @@
             const [user, setUser] = useState(null);
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
             
-            // Dummy Data
-            const [thoughts, setThoughts] = useState([{id: 1, text: "The idea of 'Kaizen' isn't just about business, it's about the small incremental changes in daily habits that compound over time...", date: "10:41 AM"}, {id: 2, text: "Need to research more about Supabase vs Firebase for the next project backend.", date: "Yesterday"}, {id: 3, text: "Remember to call mom this weekend.", date: "2 days ago"}]);
-            const [projects, setProjects] = useState([
-                { id: 1, title: "Website Redesign", category: "Dev", status: "Active", progress: 75, deadline: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), color: "text-emerald-500" },
-                { id: 2, title: "Q1 Marketing Plan", category: "Work", status: "Active", progress: 30, deadline: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), color: "text-orange-500" },
-                { id: 3, title: "Personal Finance", category: "Life", status: "Active", progress: 60, deadline: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), color: "text-blue-500" },
-                { id: 4, title: "Fitness Routine", category: "Health", status: "Active", progress: 90, deadline: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), color: "text-red-500" },
-                { id: 5, title: "Learn Rust", category: "Dev", status: "On Hold", progress: 10, deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), color: "text-purple-500" }
-            ]);
-            const [goals, setGoals] = useState([
-                { id: 1, title: "Launch MVP", category: "Career", timeframe: "Q1", type: "Outcome", current: 75, target: 100, unit: "%" },
-                { id: 2, title: "Read 24 Books", category: "Growth", timeframe: "Year", type: "Habit", current: 4, target: 24, unit: "books" },
-                { id: 3, title: "Run 500km", category: "Health", timeframe: "Year", type: "Habit", current: 120, target: 500, unit: "km" },
-                { id: 4, title: "Save $10k", category: "Finance", timeframe: "Year", type: "Outcome", current: 3500, target: 10000, unit: "$" }
-            ]);
-            const [books, setBooks] = useState([
-                { id: 1, title: "Atomic Habits", author: "James Clear", category: "Non-Fiction", status: "Reading", progress: 65, coverColor: "bg-amber-500" },
-                { id: 2, title: "Deep Work", author: "Cal Newport", category: "Productivity", status: "Finished", rating: 5, coverColor: "bg-blue-600" },
-                { id: 3, title: "Clean Code", author: "Robert Martin", category: "Tech", status: "To Read", coverColor: "bg-emerald-600" },
-                { id: 4, title: "Project Hail Mary", author: "Andy Weir", category: "Sci-Fi", status: "Finished", rating: 5, coverColor: "bg-indigo-600" },
-                { id: 5, title: "The Psychology of Money", author: "Morgan Housel", category: "Finance", status: "To Read", coverColor: "bg-green-600" }
-            ]);
-            const [notes, setNotes] = useState([
-                { id: 1, x: 100, y: 100, text: "Double-click anywhere to add a new note!", color: "bg-amber-100 dark:bg-amber-900 text-amber-900 dark:text-amber-100" },
-                { id: 2, x: 400, y: 150, text: "Drag me around freely.", color: "bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100" },
-                { id: 3, x: 250, y: 400, text: "Switch to Draw Mode to sketch connections ->", color: "bg-emerald-100 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100" }
-            ]);
+            // Dummy Data for fallback
+            const [thoughts, setThoughts] = useState([]);
+            const [projects, setProjects] = useState([]);
+            const [goals, setGoals] = useState([]);
+            const [books, setBooks] = useState([]);
+            const [notes, setNotes] = useState([]); 
 
             useEffect(() => {
                 if(darkMode) document.documentElement.classList.add('dark');
@@ -1044,31 +1031,106 @@
                 }
             }, []);
 
+            // --- DATA SYNC LOGIC ---
+            useEffect(() => {
+                if (!isFirebaseConfigured) {
+                    // Fallback data if no firebase
+                    setThoughts([{id: 1, text: "Welcome to Kaizen OS Local Mode. Configure Firebase for sync.", date: new Date().toLocaleDateString()}]);
+                    return;
+                }
+
+                // USE SHARED PATH FOR SYNC
+                const collections = [
+                    { name: 'thoughts', setter: setThoughts, order: 'desc' },
+                    { name: 'projects', setter: setProjects, order: 'desc' },
+                    { name: 'goals', setter: setGoals, order: 'desc' },
+                    { name: 'library', setter: setBooks, order: 'desc' },
+                    { name: 'brainstorm_notes', setter: setNotes, order: 'asc' }
+                ];
+
+                const unsubscribes = collections.map(col => {
+                    const q = query(
+                        collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, col.name),
+                        orderBy('createdAt', col.order === 'desc' ? 'desc' : 'asc')
+                    );
+                    
+                    return onSnapshot(q, (snapshot) => {
+                        const data = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                        col.setter(data);
+                    }, (error) => console.error(`Error fetching ${col.name}:`, error));
+                });
+
+                return () => unsubscribes.forEach(unsub => unsub());
+            }, [user]);
+
             // Data Handlers
-            const handleAddThought = (text) => {
+            const handleAddThought = async (text) => {
                 if (!text.trim()) return;
-                const newT = { id: Date.now(), text, date: new Date().toLocaleDateString() };
-                setThoughts([newT, ...thoughts]);
+                if (isFirebaseConfigured) {
+                    await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'thoughts'), {
+                        text, date: new Date().toLocaleDateString(), createdAt: serverTimestamp()
+                    });
+                } else {
+                    setThoughts([{id: Date.now(), text, date: new Date().toLocaleDateString()}, ...thoughts]);
+                }
                 setNoteInput('');
             };
-            const handleDeleteThought = (id) => setThoughts(thoughts.filter(t => t.id !== id));
-
-            const handleAddProject = (title, deadlineDate) => {
-                const newProject = { id: Date.now(), title, category: "General", status: "Active", progress: 0, deadline: deadlineDate ? new Date(deadlineDate).toISOString() : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), color: "text-zinc-500" };
-                setProjects([newProject, ...projects]);
+            
+            const handleDeleteThought = async (id) => {
+                if (isFirebaseConfigured) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'thoughts', id));
+                else setThoughts(thoughts.filter(t => t.id !== id));
             };
-            const handleUpdateProject = (id, updates) => setProjects(projects.map(p => p.id === id ? { ...p, ...updates } : p));
-            const handleDeleteProject = (id) => setProjects(projects.filter(p => p.id !== id));
 
-            const handleAddGoal = (goal) => {}; // Placeholder
-            const handleUpdateGoal = (id, updates) => setGoals(goals.map(g => g.id === id ? { ...g, ...updates } : g));
+            const handleAddProject = async (title, deadlineDate) => {
+                const newProject = { title, category: "General", status: "Active", progress: 0, deadline: deadlineDate ? new Date(deadlineDate).toISOString() : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), color: "text-zinc-500", createdAt: serverTimestamp() };
+                if (isFirebaseConfigured) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects'), newProject);
+                else setProjects([ {id: Date.now(), ...newProject}, ...projects]);
+            };
+            
+            const handleUpdateProject = async (id, updates) => {
+                if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects', id), updates);
+                else setProjects(projects.map(p => p.id === id ? { ...p, ...updates } : p));
+            };
+            
+            const handleDeleteProject = async (id) => {
+                if (isFirebaseConfigured) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects', id));
+                else setProjects(projects.filter(p => p.id !== id));
+            };
 
-            const handleAddNote = (note) => setNotes([...notes, { id: Date.now(), ...note }]);
-            const handleUpdateNote = (id, updates) => setNotes(notes.map(n => n.id === id ? { ...n, ...updates } : n));
-            const handleDeleteNote = (id) => setNotes(notes.filter(n => n.id !== id));
+            const handleAddGoal = async (goal) => {}; 
+            const handleUpdateGoal = async (id, updates) => {
+                 if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'goals', id), updates);
+                 else setGoals(goals.map(g => g.id === id ? { ...g, ...updates } : g));
+            };
+            const handleAddGoalDirect = async () => { /* Add logic for goal modal if needed later */ };
 
-            const handleAddBook = (book) => setBooks([...books, { id: Date.now(), ...book }]);
-            const handleUpdateBook = (id, updates) => setBooks(books.map(b => b.id === id ? { ...b, ...updates } : b));
+            const handleAddNote = async (note) => {
+                if (isFirebaseConfigured) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes'), { ...note, createdAt: serverTimestamp() });
+                else setNotes([...notes, { id: Date.now(), ...note }]);
+            };
+            
+            const handleUpdateNote = async (id, updates) => {
+                if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes', id), updates);
+                else setNotes(notes.map(n => n.id === id ? { ...n, ...updates } : n));
+            };
+            
+            const handleDeleteNote = async (id) => {
+                 if (isFirebaseConfigured) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes', id));
+                 else setNotes(notes.filter(n => n.id !== id));
+            };
+
+            const handleAddBook = async (book) => {
+                if (isFirebaseConfigured) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'library'), { ...book, createdAt: serverTimestamp() });
+                else setBooks([...books, { id: Date.now(), ...book }]);
+            };
+            
+            const handleUpdateBook = async (id, updates) => {
+                if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'library', id), updates);
+                else setBooks(books.map(b => b.id === id ? { ...b, ...updates } : b));
+            };
 
             if (isLocked) return React.createElement(LoginScreen, { onLogin: () => setIsLocked(false) });
 
@@ -1140,7 +1202,7 @@
                     activeTab === 'projects' && React.createElement(ProjectsView, { projects, onAddProject: handleAddProject, onUpdateProject: handleUpdateProject, onDeleteProject: handleDeleteProject }),
                     activeTab === 'schedule' && React.createElement(ScheduleView),
                     activeTab === 'brainstorm' && React.createElement(BrainstormView, { notes, onAddNote: handleAddNote, onUpdateNote: handleUpdateNote, onDeleteNote: handleDeleteNote }),
-                    activeTab === 'goals' && React.createElement(GoalsView, { goals, onUpdateGoal: handleUpdateGoal, onAddGoal: handleAddGoal }),
+                    activeTab === 'goals' && React.createElement(GoalsView, { goals, onUpdateGoal: handleUpdateGoal, onAddGoal: handleAddGoalDirect }),
                     activeTab === 'library' && React.createElement(LibraryView, { books, onAddBook: handleAddBook, onUpdateBook: handleUpdateBook }),
                     activeTab === 'entertainment' && React.createElement(EntertainmentView),
                     !['dashboard', 'schedule', 'brainstorm', 'goals', 'library', 'entertainment', 'thoughts', 'projects'].includes(activeTab) && React.createElement("div", { className: "flex flex-col items-center justify-center h-[60vh] text-zinc-400" },

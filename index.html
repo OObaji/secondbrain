@@ -74,17 +74,19 @@
 
         // --- FIREBASE IMPORTS ---
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // --- CONFIGURATION ---
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY_HERE",
-            authDomain: "your-project.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
+            apiKey: "AIzaSyCKGxtGBjHjHkOh902YgfU6h4-NBk065z0",
+            authDomain: "secondbrain-8d8cd.firebaseapp.com",
+            projectId: "secondbrain-8d8cd",
+            storageBucket: "secondbrain-8d8cd.firebasestorage.app",
+            messagingSenderId: "1913632272",
+            appId: "1:1913632272:web:324f366a35e6dd07cffc95",
+            measurementId: "G-V2BXKYRC5X"
         };
         
         const appId = 'kaizen-os-prod';
@@ -94,20 +96,22 @@
         const SHARED_USER_ID = 'global_shared_user'; 
 
         // Initialize Firebase safely
-        let app, auth, db;
+        let app, auth, db, analytics;
         let isFirebaseConfigured = false;
         
         try {
-            if (firebaseConfig.apiKey !== "YOUR_API_KEY_HERE") {
+            if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY_HERE") {
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
+                analytics = getAnalytics(app);
                 isFirebaseConfigured = true;
             } else {
                 console.warn("Firebase not configured. Running in UI-only mode.");
             }
         } catch (e) {
             console.error("Firebase initialization failed:", e);
+            isFirebaseConfigured = false;
         }
 
         // --- COMPONENTS ---
@@ -1105,6 +1109,7 @@
             const [isLocked, setIsLocked] = useState(true);
             const [user, setUser] = useState(null);
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [authError, setAuthError] = useState(null); // Add state for auth error
             
             // Dummy Data for fallback
             const [thoughts, setThoughts] = useState([]);
@@ -1118,18 +1123,49 @@
                 else document.documentElement.classList.remove('dark');
             }, [darkMode]);
 
+            // --- AUTH LOGIC ---
             useEffect(() => {
                 if (isFirebaseConfigured) {
-                    onAuthStateChanged(auth, (u) => setUser(u));
-                    if (!auth.currentUser) signInAnonymously(auth).catch(e => console.log("Auth error", e));
+                    const unsubscribe = onAuthStateChanged(auth, (u) => {
+                        setUser(u);
+                        if (u) setAuthError(null);
+                    });
+
+                    const initAuth = async () => {
+                        try {
+                            // 1. Try Custom Token (Priority for environment)
+                            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                                await signInWithCustomToken(auth, __initial_auth_token);
+                            } else {
+                                // 2. Fallback to Anonymous (Needs enabling in Console)
+                                await signInAnonymously(auth);
+                            }
+                        } catch (e) {
+                            // Gracefully handle missing configuration
+                            if (e.code === 'auth/configuration-not-found' || e.code === 'auth/operation-not-allowed') {
+                                console.warn("App running in Offline Mode: Anonymous Auth is disabled in Firebase Console.");
+                            } else {
+                                console.error("Auth Initialization Error:", e);
+                            }
+                            setAuthError(e.message);
+                        }
+                    };
+
+                    if (!auth.currentUser) {
+                        initAuth();
+                    }
+                    return () => unsubscribe();
                 }
             }, []);
 
             // --- DATA SYNC LOGIC ---
             useEffect(() => {
-                if (!isFirebaseConfigured) {
-                    // Fallback data if no firebase
-                    setThoughts([{id: 1, text: "Welcome to Kaizen OS Local Mode. Configure Firebase for sync.", date: new Date().toLocaleDateString()}]);
+                // CRITICAL: Guard against unauthenticated access
+                if (!isFirebaseConfigured || !user) {
+                    if (!isFirebaseConfigured || authError) {
+                        // Fallback/Local data if offline or auth failed
+                         if (thoughts.length === 0) setThoughts([{id: 1, text: "Running in Local Mode. (Database unconnected)", date: new Date().toLocaleDateString()}]);
+                    }
                     return;
                 }
 
@@ -1158,12 +1194,12 @@
                 });
 
                 return () => unsubscribes.forEach(unsub => unsub());
-            }, [user]);
+            }, [user, authError]);
 
             // Data Handlers
             const handleAddThought = async (text) => {
                 if (!text.trim()) return;
-                if (isFirebaseConfigured) {
+                if (isFirebaseConfigured && user) {
                     await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'thoughts'), {
                         text, date: new Date().toLocaleDateString(), createdAt: serverTimestamp()
                     });
@@ -1174,61 +1210,61 @@
             };
             
             const handleDeleteThought = async (id) => {
-                if (isFirebaseConfigured) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'thoughts', id));
+                if (isFirebaseConfigured && user) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'thoughts', id));
                 else setThoughts(thoughts.filter(t => t.id !== id));
             };
 
             const handleAddProject = async (title, deadlineDate) => {
                 const newProject = { title, category: "General", status: "Active", progress: 0, deadline: deadlineDate ? new Date(deadlineDate).toISOString() : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), color: "text-zinc-500", createdAt: serverTimestamp() };
-                if (isFirebaseConfigured) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects'), newProject);
+                if (isFirebaseConfigured && user) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects'), newProject);
                 else setProjects([ {id: Date.now(), ...newProject}, ...projects]);
             };
             
             const handleUpdateProject = async (id, updates) => {
-                if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects', id), updates);
+                if (isFirebaseConfigured && user) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects', id), updates);
                 else setProjects(projects.map(p => p.id === id ? { ...p, ...updates } : p));
             };
             
             const handleDeleteProject = async (id) => {
-                if (isFirebaseConfigured) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects', id));
+                if (isFirebaseConfigured && user) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'projects', id));
                 else setProjects(projects.filter(p => p.id !== id));
             };
 
             const handleAddGoal = async (goal) => {
-                 if (isFirebaseConfigured) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'goals'), { ...goal, createdAt: serverTimestamp() });
+                 if (isFirebaseConfigured && user) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'goals'), { ...goal, createdAt: serverTimestamp() });
                  else setGoals([...goals, { id: Date.now(), ...goal }]);
             };
             const handleUpdateGoal = async (id, updates) => {
-                 if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'goals', id), updates);
+                 if (isFirebaseConfigured && user) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'goals', id), updates);
                  else setGoals(goals.map(g => g.id === id ? { ...g, ...updates } : g));
             };
 
             const handleAddNote = async (note) => {
-                if (isFirebaseConfigured) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes'), { ...note, createdAt: serverTimestamp() });
+                if (isFirebaseConfigured && user) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes'), { ...note, createdAt: serverTimestamp() });
                 else setNotes([...notes, { id: Date.now(), ...note }]);
             };
             
             const handleUpdateNote = async (id, updates) => {
-                if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes', id), updates);
+                if (isFirebaseConfigured && user) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes', id), updates);
                 else setNotes(notes.map(n => n.id === id ? { ...n, ...updates } : n));
             };
             
             const handleDeleteNote = async (id) => {
-                 if (isFirebaseConfigured) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes', id));
+                 if (isFirebaseConfigured && user) await deleteDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'brainstorm_notes', id));
                  else setNotes(notes.filter(n => n.id !== id));
             };
 
             const handleAddBook = async (book) => {
-                if (isFirebaseConfigured) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'library'), { ...book, createdAt: serverTimestamp() });
+                if (isFirebaseConfigured && user) await addDoc(collection(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'library'), { ...book, createdAt: serverTimestamp() });
                 else setBooks([...books, { id: Date.now(), ...book }]);
             };
             
             const handleUpdateBook = async (id, updates) => {
-                if (isFirebaseConfigured) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'library', id), updates);
+                if (isFirebaseConfigured && user) await updateDoc(doc(db, 'artifacts', appId, 'users', SHARED_USER_ID, 'library', id), updates);
                 else setBooks(books.map(b => b.id === id ? { ...b, ...updates } : b));
             };
 
-            if (isLocked) return React.createElement(LoginScreen, { onLogin: () => setIsLocked(false), isConnected: isFirebaseConfigured });
+            if (isLocked) return React.createElement(LoginScreen, { onLogin: () => setIsLocked(false), isConnected: isFirebaseConfigured && !!user });
 
             const SidebarContent = () => (
                 React.createElement(React.Fragment, null,

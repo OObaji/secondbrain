@@ -73,7 +73,7 @@
             Timer, Play, Pause, Wrench, File, CreditCard, Coins, Heart, Activity, Scissors, Share2, Mail, Archive, Image,
             Cloud, CloudRain, CloudSun, CloudSnow, CloudLightning, Thermometer,
             List, Grid, Columns, Utensils, FileText, Trash, ShieldAlert, Flame, Volume2, ChevronLeft,
-            ListTodo, ArrowUpRight, CheckSquare, Flower2, Dumbbell
+            ListTodo, ArrowUpRight, CheckSquare, Flower2, Dumbbell, Github, Bot, Newspaper
         } from "https://esm.sh/lucide-react@0.344.0?deps=react@18.2.0";
 
         // --- FIREBASE IMPORTS ---
@@ -114,8 +114,7 @@
             isFirebaseConfigured = false;
         }
 
-        // --- GLOBAL DATA ---
-        // Defined globally to be shared across components
+        // --- DATA ---
         const DEFAULT_MEALS = [
             { day: 'Monday', type: 'Breakfast', text: 'Boiled eggs + bread + tea/coffee' },
             { day: 'Monday', type: 'Lunch', text: 'Jollof rice + chicken' },
@@ -555,19 +554,43 @@
                     )
                 ),
                 
-                // NEW SECTION: Life Strategy
-                React.createElement("h3", { className: "text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-2" }, React.createElement(Target, { size: 16 }), " Life Strategy"),
-                React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 mb-8" },
-                    React.createElement(Card, { title: "MyLife Blueprint", action: React.createElement("a", { href: "https://www.notion.so/Blueprint-of-my-life-2cce1ae8ad3280abba74e8b4e8849b12", target: "_blank", className: "text-indigo-500 hover:text-indigo-400" }, React.createElement(ExternalLink, { size: 16 })) },
-                        React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-6 text-center" },
-                            React.createElement(MapPin, { size: 32, className: "text-indigo-500 mb-2" }),
-                            React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200" }, "Master Plan & Vision")
+                // NEW SECTION: Life Strategy & AI
+                React.createElement("h3", { className: "text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-2" }, React.createElement(Target, { size: 16 }), " Strategy & Intelligence"),
+                React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8" },
+                    React.createElement(Card, { title: "MyLife Blueprint", className: "md:col-span-1", action: React.createElement("a", { href: "https://www.notion.so/Blueprint-of-my-life-2cce1ae8ad3280abba74e8b4e8849b12", target: "_blank", className: "text-indigo-500 hover:text-indigo-400" }, React.createElement(ExternalLink, { size: 16 })) },
+                        React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-2 text-center" },
+                            React.createElement(MapPin, { size: 24, className: "text-indigo-500 mb-2" }),
+                            React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200 text-sm" }, "Master Plan")
                         )
                     ),
-                    React.createElement(Card, { title: "2026 Strategic Plan", action: React.createElement("a", { href: "https://www.notion.so/Goals-for-2026-2dae1ae8ad3280f89702fec785b5c33e", target: "_blank", className: "text-indigo-500 hover:text-indigo-400" }, React.createElement(ExternalLink, { size: 16 })) },
-                        React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-6 text-center" },
-                            React.createElement(Flag, { size: 32, className: "text-emerald-500 mb-2" }),
-                            React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200" }, "5-Year Goals & Milestones")
+                    React.createElement(Card, { title: "2026 Strategic Plan", className: "md:col-span-1", action: React.createElement("a", { href: "https://www.notion.so/Goals-for-2026-2dae1ae8ad3280f89702fec785b5c33e", target: "_blank", className: "text-indigo-500 hover:text-indigo-400" }, React.createElement(ExternalLink, { size: 16 })) },
+                        React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-2 text-center" },
+                            React.createElement(Flag, { size: 24, className: "text-emerald-500 mb-2" }),
+                            React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200 text-sm" }, "5-Year Goals")
+                        )
+                    ),
+                    React.createElement(Card, { title: "Planning Board", className: "md:col-span-1", action: React.createElement("a", { href: "https://xtiles.app/workspace/personal", target: "_blank", className: "text-indigo-500 hover:text-indigo-400" }, React.createElement(ExternalLink, { size: 16 })) },
+                        React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-2 text-center" },
+                            React.createElement(Layout, { size: 24, className: "text-purple-500 mb-2" }),
+                            React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200 text-sm" }, "Visual Workspace")
+                        )
+                    ),
+                     React.createElement(Card, { title: "AI Command", className: "md:col-span-1" },
+                        React.createElement("div", { className: "grid grid-cols-2 gap-2 h-full" },
+                            React.createElement("a", { href: "https://chatgpt.com/", target: "_blank", className: "flex flex-col items-center justify-center p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/10 hover:bg-emerald-100 dark:hover:bg-emerald-900/20 transition-colors" },
+                                React.createElement(Bot, { size: 20, className: "text-emerald-600 mb-1" }),
+                                React.createElement("span", { className: "text-[10px] font-bold text-emerald-700 dark:text-emerald-400" }, "ChatGPT")
+                            ),
+                            React.createElement("a", { href: "https://gemini.google.com/u/1/app?pli=1", target: "_blank", className: "flex flex-col items-center justify-center p-2 rounded-lg bg-blue-50 dark:bg-blue-900/10 hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors" },
+                                React.createElement(Sparkles, { size: 20, className: "text-blue-600 mb-1" }),
+                                React.createElement("span", { className: "text-[10px] font-bold text-blue-700 dark:text-blue-400" }, "Gemini")
+                            )
+                        )
+                    ),
+                    React.createElement(Card, { title: "Daily News", className: "md:col-span-1", action: React.createElement("a", { href: "https://feedly.com/i/my/me?s=entry:NMOT9Qel7qVjG6zyqhPlX%2BhtNtuxe1GRrm6bhoBjpeY%3D_19b992cb918:11345765:aef60a64", target: "_blank", className: "text-green-500 hover:text-green-400" }, React.createElement(ExternalLink, { size: 16 })) },
+                        React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-2 text-center" },
+                            React.createElement(Newspaper, { size: 24, className: "text-green-500 mb-2" }),
+                            React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200 text-sm" }, "Feedly")
                         )
                     )
                 ),
@@ -672,6 +695,7 @@
                     React.createElement(QuickLinkButton, { href: "https://www.bible.com/users/Ololadeobaji100/reading-plans/65489-the-bible-with-nicky-and-pippa-gumbel-classic/subscription/1238596809/day/1/segment/1", icon: Book, label: "Bible", colorClass: "text-amber-800 dark:text-amber-400" }),
                     React.createElement(QuickLinkButton, { href: "https://calendar.google.com/calendar/u/0/r?pli=1", icon: CalendarIcon, label: "Google Calendar", colorClass: "text-blue-400" }),
                     React.createElement(QuickLinkButton, { href: "https://www.notion.so/Knowledge-Vaults-277e1ae8ad3280b8b2c4e644b1aee2cd", icon: Database, label: "Knowledge Vaults", colorClass: "text-emerald-500" }),
+                    React.createElement(QuickLinkButton, { href: "https://github.com/", icon: Github, label: "GitHub", colorClass: "text-zinc-800 dark:text-zinc-200" }),
                      React.createElement("button", { onClick: () => onNavigate('tools'), className: "flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-indigo-500 hover:border-indigo-500/50 hover:bg-indigo-50/10 transition-all h-full" },
                         React.createElement(Plus, { size: 16 }),
                         React.createElement("span", { className: "text-xs font-medium" }, "More Tools")
@@ -686,10 +710,12 @@
             // Drag and Drop Handlers
             const onDragStart = (e, id) => {
                 e.dataTransfer.setData("taskId", id.toString());
+                e.dataTransfer.effectAllowed = "move";
             };
 
             const onDragOver = (e) => {
                 e.preventDefault();
+                e.dataTransfer.dropEffect = "move";
             };
 
             const onDrop = (e, category) => {
@@ -926,6 +952,47 @@
             );
         };
 
+        const LandingScreen = ({ onEnter }) => {
+            return React.createElement("div", { className: "min-h-screen bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden font-sans selection:bg-indigo-500/30" },
+                // Background
+                React.createElement("div", { className: "absolute inset-0 pointer-events-none" },
+                    React.createElement("div", { className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-600/20 rounded-full blur-[120px] opacity-50 animate-pulse" }),
+                     React.createElement("div", { className: "absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" })
+                ),
+                
+                // Content
+                React.createElement("div", { className: "relative z-10 flex flex-col items-center text-center space-y-8 p-8 max-w-2xl animate-in fade-in zoom-in duration-1000" },
+                    React.createElement("div", { className: "relative" },
+                         React.createElement("div", { className: "absolute inset-0 bg-indigo-500 blur-xl opacity-50 rounded-full" }),
+                         React.createElement("div", { className: "relative bg-zinc-900 p-6 rounded-3xl border border-zinc-800 shadow-2xl" },
+                            React.createElement(Brain, { size: 64, className: "text-white" })
+                         )
+                    ),
+                    React.createElement("div", { className: "space-y-4" },
+                        React.createElement("h1", { className: "text-5xl md:text-7xl font-bold tracking-tighter text-white" }, 
+                            "Life", React.createElement("span", { className: "text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400" }, "OS")
+                        ),
+                        React.createElement("p", { className: "text-lg text-zinc-400 max-w-lg mx-auto leading-relaxed" }, 
+                            "The operating system for your life. Organize your mind, manage your time, and achieve your potential."
+                        )
+                    ),
+                    React.createElement("button", { 
+                        onClick: onEnter,
+                        className: "group relative px-8 py-4 bg-white text-zinc-950 rounded-full font-bold text-sm tracking-widest uppercase hover:bg-zinc-200 transition-all active:scale-95 shadow-xl shadow-white/10"
+                    }, 
+                        "Initialize System",
+                        React.createElement(ArrowRight, { size: 16, className: "inline ml-2 -mt-0.5 group-hover:translate-x-1 transition-transform" })
+                    )
+                ),
+                
+                // Footer
+                React.createElement("div", { className: "absolute bottom-8 text-zinc-600 text-[10px] font-mono uppercase tracking-[0.2em] flex items-center gap-2" },
+                    React.createElement("div", { className: "w-2 h-2 rounded-full bg-emerald-500 animate-pulse" }),
+                    "System Operational"
+                )
+            );
+        };
+
         const ToolsView = () => (
             React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
                 React.createElement("div", { className: "flex justify-between items-center mb-8" },
@@ -936,6 +1003,39 @@
                     React.createElement("button", { className: "flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-500/20" }, React.createElement(Plus, { size: 16 }), " Add Tool")
                 ),
                 React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-20" },
+                    // University & Career
+                    React.createElement(Card, { title: "Dev & Career", className: "gap-4" },
+                        React.createElement("div", { className: "grid grid-cols-3 gap-3" },
+                            React.createElement(QuickLinkButton, { href: "https://my.hope.ac.uk/myhope/public/index.php/Main/index", icon: Building, label: "MyHope", colorClass: "text-rose-600" }),
+                            React.createElement(QuickLinkButton, { href: "https://live.moodle.hope.ac.uk/", icon: GraduationCap, label: "Moodle", colorClass: "text-orange-500" }),
+                            React.createElement(QuickLinkButton, { href: "https://citex.org.uk/wp-login.php?redirect_to=https%3A%2F%2Fcitex.org.uk%2Fwp-admin%2F&reauth=1", icon: Briefcase, label: "Citex", colorClass: "text-blue-600" }),
+                            React.createElement(QuickLinkButton, { href: "https://deadline-tracker04.vercel.app/home", icon: Clock, label: "Deadlines", colorClass: "text-red-500" }),
+                            React.createElement(QuickLinkButton, { href: "https://www.notion.so/CS-Year-3-LHU-115e1ae8ad3281e0987bc286a3374bed", icon: GraduationCap, label: "Year 3 BSC", colorClass: "text-blue-500" }),
+                            React.createElement(QuickLinkButton, { href: "https://mtukso03.teleopticloud.com/Web/MyTime#Schedule", icon: Briefcase, label: "Work", colorClass: "text-cyan-600" }),
+                            React.createElement(QuickLinkButton, { href: "https://github.com/", icon: Github, label: "GitHub", colorClass: "text-zinc-800 dark:text-zinc-200" }),
+                            React.createElement(QuickLinkButton, { href: "https://app.netlify.com/teams/oobaji/projects", icon: Cloud, label: "Netlify", colorClass: "text-teal-500" })
+                        )
+                    ),
+                    // LifeOS System
+                    React.createElement(Card, { title: "LifeOS System", className: "gap-4" },
+                        React.createElement("div", { className: "grid grid-cols-3 gap-3" },
+                            React.createElement(QuickLinkButton, { href: "https://www.notion.so/Share-your-thoughts-2dee1ae8ad32809da202e904f0055734", icon: PenTool, label: "Journal", colorClass: "text-zinc-900 dark:text-zinc-100" }),
+                            React.createElement(QuickLinkButton, { href: "https://www.notion.so/My-Library-2e2e1ae8ad3280e58b5dc6521ae118a8", icon: BookOpen, label: "Library", colorClass: "text-amber-600" }),
+                            React.createElement(QuickLinkButton, { href: "https://www.notion.so/LIFE-GOALS-8a897b99c6a24eac89c1dade55f55761", icon: Target, label: "Goals", colorClass: "text-rose-500" }),
+                            React.createElement(QuickLinkButton, { href: "https://www.notion.so/Knowledge-Vaults-277e1ae8ad3280b8b2c4e644b1aee2cd", icon: Database, label: "Vaults", colorClass: "text-emerald-500" }),
+                            React.createElement(QuickLinkButton, { href: "https://www.bible.com/users/Ololadeobaji100/reading-plans/65489-the-bible-with-nicky-and-pippa-gumbel-classic/subscription/1238596809/day/1/segment/1", icon: Book, label: "Bible", colorClass: "text-amber-800 dark:text-amber-400" }),
+                            React.createElement(QuickLinkButton, { href: "https://calendar.google.com/calendar/u/0/r?pli=1", icon: CalendarIcon, label: "Calendar", colorClass: "text-blue-400" })
+                        )
+                    ),
+                    // Media & Chill
+                    React.createElement(Card, { title: "Media & Chill", className: "gap-4" },
+                        React.createElement("div", { className: "grid grid-cols-3 gap-3" },
+                            React.createElement(QuickLinkButton, { href: "https://www.youtube.com/", icon: MonitorPlay, label: "YouTube", colorClass: "text-red-600" }),
+                            React.createElement(QuickLinkButton, { href: "https://open.spotify.com/?flow_ctx=3baa2388-cd31-492c-9d26-5c6fda2002f7%3A1767863490", icon: Music, label: "Spotify", colorClass: "text-green-500" }),
+                            React.createElement(QuickLinkButton, { href: "https://www.netflix.com/browse", icon: Film, label: "Netflix", colorClass: "text-red-600" }),
+                            React.createElement(QuickLinkButton, { href: "https://www.twitch.tv/", icon: Video, label: "Twitch", colorClass: "text-purple-500" })
+                        )
+                    ),
                     // Productivity
                     React.createElement(Card, { title: "Productivity HQ", className: "gap-4" },
                         React.createElement("div", { className: "grid grid-cols-3 gap-3" },
@@ -1293,125 +1393,8 @@
             );
         };
 
-        const BrainstormView = ({ notes, onAddNote, onUpdateNote, onDeleteNote }) => {
-            const [mode, setMode] = useState('pointer'); 
-            const [paths, setPaths] = useState([]);
-            const [currentPath, setCurrentPath] = useState([]);
-            const [isDrawing, setIsDrawing] = useState(false);
-            const [draggingNote, setDraggingNote] = useState(null);
-            const canvasRef = useRef(null);
-
-            const createNewNote = (x, y) => {
-                const colors = ["bg-amber-100 dark:bg-amber-900 text-amber-900 dark:text-amber-100", "bg-rose-100 dark:bg-rose-900 text-rose-900 dark:text-rose-100", "bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100", "bg-emerald-100 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100"];
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                onAddNote({ x, y, text: "New Idea", color: randomColor });
-            };
-
-            const addNoteCenter = () => {
-                if (!canvasRef.current) return;
-                const rect = canvasRef.current.getBoundingClientRect();
-                createNewNote(Math.max(0, rect.width / 2 - 128), Math.max(0, rect.height / 2 - 64));
-            };
-
-            const handleNoteMouseDown = (e, noteId) => {
-                if (mode === 'draw') return;
-                e.stopPropagation();
-                const note = notes.find(n => n.id === noteId);
-                setDraggingNote({ id: noteId, startX: e.clientX, startY: e.clientY, initialX: note.x, initialY: note.y });
-            };
-
-            const handleCanvasDoubleClick = (e) => {
-                if (mode === 'draw' || (e.target !== canvasRef.current && e.target.tagName !== 'svg')) return;
-                createNewNote(e.nativeEvent.offsetX - 100, e.nativeEvent.offsetY - 50);
-            };
-
-            const handleCanvasMouseDown = (e) => {
-                if (mode === 'draw') {
-                    setIsDrawing(true);
-                    setCurrentPath([{ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY }]);
-                }
-            };
-
-            const handleCanvasMouseMove = (e) => {
-                if (draggingNote && mode === 'pointer') {
-                    const dx = e.clientX - draggingNote.startX;
-                    const dy = e.clientY - draggingNote.startY;
-                    onUpdateNote(draggingNote.id, { x: draggingNote.initialX + dx, y: draggingNote.initialY + dy });
-                }
-                if (isDrawing && mode === 'draw') {
-                    setCurrentPath(prev => [...prev, { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY }]);
-                }
-            };
-
-            const handleCanvasMouseUp = () => {
-                if (draggingNote) setDraggingNote(null);
-                if (isDrawing) {
-                    setIsDrawing(false);
-                    if (currentPath.length > 1) setPaths(prev => [...prev, currentPath]);
-                    setCurrentPath([]);
-                }
-            };
-
-            const clearCanvas = () => { if (confirm("Clear all drawings? Notes will remain.")) setPaths([]); };
-            const pointsToPath = (points) => points.length === 0 ? '' : points.reduce((acc, point, i) => acc + (i === 0 ? `M ${point.x} ${point.y}` : ` L ${point.x} ${point.y}`), '');
-
-            return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
-                React.createElement("div", { className: "flex justify-between items-center mb-4" },
-                    React.createElement("div", null,
-                        React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Brainstorm ", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(Sparkles, { size: 12 }), " Canvas")),
-                        React.createElement("p", { className: "text-zinc-500 text-sm" }, "Free-form thinking. Double click or use + to add notes.")
-                    ),
-                    React.createElement("div", { className: "flex gap-2 p-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm" },
-                        React.createElement("button", { onClick: addNoteCenter, className: "p-2 rounded-lg transition-all text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-indigo-600" }, React.createElement(Plus, { size: 18 })),
-                        React.createElement("div", { className: "w-[1px] bg-zinc-200 dark:bg-zinc-800 mx-1" }),
-                        React.createElement("button", { onClick: () => setMode('pointer'), className: `p-2 rounded-lg transition-all flex items-center gap-2 ${mode === 'pointer' ? 'bg-indigo-600 text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'}` }, React.createElement(MousePointer2, { size: 18 })),
-                        React.createElement("button", { onClick: () => setMode('draw'), className: `p-2 rounded-lg transition-all flex items-center gap-2 ${mode === 'draw' ? 'bg-indigo-600 text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'}` }, React.createElement(PenTool, { size: 18 })),
-                        React.createElement("div", { className: "w-[1px] bg-zinc-200 dark:bg-zinc-800 mx-1" }),
-                        React.createElement("button", { onClick: clearCanvas, className: "p-2 text-zinc-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" }, React.createElement(Eraser, { size: 18 }))
-                    )
-                ),
-                React.createElement("div", { className: "flex-1 relative rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/50 overflow-hidden shadow-inner min-h-[600px]" },
-                    React.createElement("div", { className: "absolute inset-0 opacity-[0.3] dark:opacity-[0.1] pointer-events-none", style: { backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)', backgroundSize: '24px 24px' } }),
-                    React.createElement("div", { 
-                        ref: canvasRef,
-                        className: `absolute inset-0 w-full h-full ${mode === 'pointer' ? 'cursor-default' : 'cursor-crosshair'}`,
-                        onDoubleClick: handleCanvasDoubleClick,
-                        onMouseDown: handleCanvasMouseDown,
-                        onMouseMove: handleCanvasMouseMove,
-                        onMouseUp: handleCanvasMouseUp,
-                        onMouseLeave: handleCanvasMouseUp
-                    },
-                        React.createElement("svg", { className: "absolute inset-0 w-full h-full pointer-events-none z-0" },
-                            paths.map((path, i) => React.createElement("path", { key: i, d: pointsToPath(path), stroke: "currentColor", strokeWidth: "3", fill: "none", className: "text-zinc-400 dark:text-zinc-600 opacity-80", strokeLinecap: "round", strokeLinejoin: "round" })),
-                            currentPath.length > 0 && React.createElement("path", { d: pointsToPath(currentPath), stroke: "currentColor", strokeWidth: "3", fill: "none", className: "text-indigo-500 opacity-80", strokeLinecap: "round", strokeLinejoin: "round" })
-                        ),
-                        notes.map(note => (
-                            React.createElement("div", {
-                                key: note.id,
-                                onMouseDown: (e) => handleNoteMouseDown(e, note.id),
-                                style: { left: note.x, top: note.y, transform: draggingNote?.id === note.id ? 'scale(1.02)' : 'scale(1)', zIndex: draggingNote?.id === note.id ? 50 : 10 },
-                                className: `absolute w-64 p-4 rounded-xl shadow-sm border border-black/5 dark:border-white/5 ${note.color} ${mode === 'pointer' ? 'cursor-grab active:cursor-grabbing' : ''} group transition-transform`
-                            },
-                                React.createElement("div", { className: "flex justify-between items-start mb-2 opacity-50 group-hover:opacity-100 transition-opacity" },
-                                    React.createElement(Move, { size: 12 }),
-                                    React.createElement("button", { onClick: (e) => { e.stopPropagation(); onDeleteNote(note.id); }, className: "hover:text-red-500" }, React.createElement(Trash2, { size: 12 }))
-                                ),
-                                React.createElement("textarea", {
-                                    value: note.text,
-                                    onChange: (e) => onUpdateNote(note.id, { text: e.target.value }),
-                                    onMouseDown: (e) => e.stopPropagation(),
-                                    onDoubleClick: (e) => e.stopPropagation(),
-                                    className: "w-full bg-transparent border-none resize-none focus:ring-0 p-0 text-sm font-medium font-handwriting leading-relaxed h-24",
-                                    placeholder: "Write something..."
-                                })
-                            )
-                        ))
-                    )
-                )
-            );
-        };
-
         const App = () => {
+            const [showLanding, setShowLanding] = useState(true);
             const [activeTab, setActiveTab] = useState('dashboard');
             const [darkMode, setDarkMode] = useState(true);
             const [user, setUser] = useState(null);
@@ -1419,7 +1402,6 @@
             const [authError, setAuthError] = useState(null);
             const [userIdentity, setUserIdentity] = useState('main');
             
-            const [notes, setNotes] = useState([]); 
             const [dumps, setDumps] = useState([]);
             const [meals, setMeals] = useState([]);
             const [worries, setWorries] = useState([]);
@@ -1466,15 +1448,6 @@
 
                 const userPath = `user_${userIdentity}`;
 
-                // Sync Brainstorm Notes
-                const qNotes = query(
-                    collection(db, 'artifacts', appId, 'users', userPath, 'brainstorm_notes'),
-                    orderBy('createdAt', 'asc')
-                );
-                const unsubNotes = onSnapshot(qNotes, (snapshot) => {
-                    setNotes(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-                }, (error) => console.error(`Error fetching brainstorm_notes:`, error));
-
                 // Sync Brain Dumps
                 const qDumps = query(
                     collection(db, 'artifacts', appId, 'users', userPath, 'brain_dumps'),
@@ -1508,28 +1481,12 @@
                     setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
                 }, (error) => console.error(`Error fetching tasks:`, error));
 
-                return () => { unsubNotes(); unsubDumps(); unsubMeals(); unsubWorries(); unsubTasks(); };
+                return () => { unsubDumps(); unsubMeals(); unsubWorries(); unsubTasks(); };
             }, [user, authError, userIdentity]);
 
             const getSafeUserPath = () => userIdentity ? `user_${userIdentity}` : null;
 
             // Handlers
-            const handleAddNote = async (note) => {
-                const path = getSafeUserPath();
-                if (isFirebaseConfigured && user && path) await addDoc(collection(db, 'artifacts', appId, 'users', path, 'brainstorm_notes'), { ...note, createdAt: serverTimestamp() });
-                else setNotes([...notes, { id: Date.now(), ...note }]);
-            };
-            const handleUpdateNote = async (id, updates) => {
-                const path = getSafeUserPath();
-                if (isFirebaseConfigured && user && path) await updateDoc(doc(db, 'artifacts', appId, 'users', path, 'brainstorm_notes', id), updates);
-                else setNotes(notes.map(n => n.id === id ? { ...n, ...updates } : n));
-            };
-            const handleDeleteNote = async (id) => {
-                 const path = getSafeUserPath();
-                 if (isFirebaseConfigured && user && path) await deleteDoc(doc(db, 'artifacts', appId, 'users', path, 'brainstorm_notes', id));
-                 else setNotes(notes.filter(n => n.id !== id));
-            };
-
             const handleAddDump = async (text) => {
                 const path = getSafeUserPath();
                 if (isFirebaseConfigured && user && path) await addDoc(collection(db, 'artifacts', appId, 'users', path, 'brain_dumps'), { text, createdAt: serverTimestamp() });
@@ -1588,6 +1545,8 @@
                 else setTasks(tasks.filter(t => String(t.id) !== String(id)));
             };
 
+            if (showLanding) return React.createElement(LandingScreen, { onEnter: () => setShowLanding(false) });
+
             const SidebarContent = () => (
                 React.createElement(React.Fragment, null,
                     React.createElement("div", { className: "flex items-center gap-3 mb-10 px-2" },
@@ -1598,7 +1557,6 @@
                         React.createElement(NavItem, { icon: Layout, label: "Dashboard", active: activeTab === 'dashboard', onClick: () => { setActiveTab('dashboard'); setMobileMenuOpen(false); } }),
                         React.createElement(NavItem, { icon: ListTodo, label: "Tasks", active: activeTab === 'tasks', onClick: () => { setActiveTab('tasks'); setMobileMenuOpen(false); } }),
                         React.createElement(NavItem, { icon: Timer, label: "Focus Mode", active: activeTab === 'focus', onClick: () => { setActiveTab('focus'); setMobileMenuOpen(false); } }),
-                        React.createElement(NavItem, { icon: Lightbulb, label: "Brainstorm", active: activeTab === 'brainstorm', onClick: () => { setActiveTab('brainstorm'); setMobileMenuOpen(false); } }),
                         React.createElement(NavItem, { icon: FileText, label: "Brain Dump", active: activeTab === 'braindump', onClick: () => { setActiveTab('braindump'); setMobileMenuOpen(false); } }),
                         React.createElement(NavItem, { icon: ShieldAlert, label: "Worries", active: activeTab === 'worries', onClick: () => { setActiveTab('worries'); setMobileMenuOpen(false); } }),
                         React.createElement(NavItem, { icon: Flower2, label: "Spirituality", active: activeTab === 'spirituality', onClick: () => { setActiveTab('spirituality'); setMobileMenuOpen(false); } }),
@@ -1638,16 +1596,15 @@
                             React.createElement("div", { className: "w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-200 dark:border-indigo-800" }, "LO")
                         )
                     ),
-                    activeTab === 'dashboard' && React.createElement(DashboardView, { notes, onAddNote: handleAddNote, onNavigate: setActiveTab, meals, tasks }),
+                    activeTab === 'dashboard' && React.createElement(DashboardView, { onAddNote: () => {}, onNavigate: setActiveTab, meals, tasks }),
                     activeTab === 'tasks' && React.createElement(TasksView, { tasks, onAddTask: handleAddTask, onUpdateTask: handleUpdateTask, onDeleteTask: handleDeleteTask }),
                     activeTab === 'focus' && React.createElement(FocusView),
-                    activeTab === 'brainstorm' && React.createElement(BrainstormView, { notes, onAddNote: handleAddNote, onUpdateNote: handleUpdateNote, onDeleteNote: handleDeleteNote }),
                     activeTab === 'braindump' && React.createElement(BrainDumpView, { dumps, onAddDump: handleAddDump, onDeleteDump: handleDeleteDump }),
                     activeTab === 'worries' && React.createElement(WorriesView, { worries, onAddWorry: handleAddWorry, onDeleteWorry: handleDeleteWorry }),
                     activeTab === 'spirituality' && React.createElement(SpiritualityView),
                     activeTab === 'food' && React.createElement(FoodView, { meals, onUpdateMeal: handleUpdateMeal }),
                     activeTab === 'tools' && React.createElement(ToolsView),
-                    !['dashboard', 'brainstorm', 'tools', 'focus', 'braindump', 'food', 'worries', 'tasks', 'spirituality'].includes(activeTab) && React.createElement("div", { className: "flex flex-col items-center justify-center h-[60vh] text-zinc-400" },
+                    !['dashboard', 'tools', 'focus', 'braindump', 'food', 'worries', 'tasks', 'spirituality'].includes(activeTab) && React.createElement("div", { className: "flex flex-col items-center justify-center h-[60vh] text-zinc-400" },
                         React.createElement("div", { className: "w-16 h-16 bg-zinc-100 dark:bg-zinc-900 rounded-2xl flex items-center justify-center mb-4" }, React.createElement(PenTool, { size: 32 })),
                         React.createElement("h3", { className: "text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-2" }, "Work in Progress"),
                         React.createElement("p", null, "This room is currently under construction.")

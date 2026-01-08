@@ -113,6 +113,31 @@
             isFirebaseConfigured = false;
         }
 
+        // --- DATA ---
+        const DEFAULT_MEALS = [
+            { day: 'Monday', type: 'Breakfast', text: 'Boiled eggs + bread + tea/coffee' },
+            { day: 'Monday', type: 'Lunch', text: 'Jollof rice + chicken' },
+            { day: 'Monday', type: 'Dinner', text: 'Indomie + boiled egg + veggies' },
+            { day: 'Tuesday', type: 'Breakfast', text: 'Oats with banana + peanut butter' },
+            { day: 'Tuesday', type: 'Lunch', text: 'Leftover jollof rice + chicken' },
+            { day: 'Tuesday', type: 'Dinner', text: 'Grilled chicken wrap (use leftover chicken)' },
+            { day: 'Wednesday', type: 'Breakfast', text: 'Avocado + boiled egg sandwich' },
+            { day: 'Wednesday', type: 'Lunch', text: 'Fried rice + beef/plantain' },
+            { day: 'Wednesday', type: 'Dinner', text: 'Sweet potatoes + egg sauce' },
+            { day: 'Thursday', type: 'Breakfast', text: 'Greek yoghurt + granola + fruit' },
+            { day: 'Thursday', type: 'Lunch', text: 'Leftover fried rice + boiled egg side' },
+            { day: 'Thursday', type: 'Dinner', text: 'Indomie stir fry with mixed vegetables' },
+            { day: 'Friday', type: 'Breakfast', text: 'Toast + fried eggs + baked beans' },
+            { day: 'Friday', type: 'Lunch', text: 'Jollof spaghetti' },
+            { day: 'Friday', type: 'Dinner', text: 'Pizza night' },
+            { day: 'Saturday', type: 'Breakfast', text: 'Pancakes (bulk, freeze, reheat)' },
+            { day: 'Saturday', type: 'Lunch', text: 'White rice + stew (tomato/pepper mix) + chicken/fish' },
+            { day: 'Saturday', type: 'Dinner', text: 'White rice + leftover stew' },
+            { day: 'Sunday', type: 'Breakfast', text: 'Plantain + scrambled eggs' },
+            { day: 'Sunday', type: 'Lunch', text: 'White spaghetti & sauce' },
+            { day: 'Sunday', type: 'Dinner', text: 'Beans & plantain' }
+        ];
+
         // --- COMPONENTS ---
 
         const Card = ({ children, className = "", title, action }) => (
@@ -313,11 +338,10 @@
 
         // --- VIEWS ---
 
-        const DashboardView = ({ onNavigate }) => {
-            const [dailyFocus, setDailyFocus] = useState(""); // Single string focus
+        const DashboardView = ({ onNavigate, meals = [] }) => {
+            const [dailyFocus, setDailyFocus] = useState("");
             const [isEditing, setIsEditing] = useState(true);
             const [focusInput, setFocusInput] = useState("");
-            
             const [quote, setQuote] = useState({ text: "Focus is about saying no.", author: "Steve Jobs" });
             const [habits, setHabits] = useState([
                 { id: 1, category: "Spiritual", label: "Pray & read my bible", completed: false, icon: Book, color: "text-amber-600 bg-amber-50 dark:bg-amber-900/20" },
@@ -325,6 +349,17 @@
                 { id: 3, category: "Health & fitness", label: "Exercise daily", completed: false, icon: Activity, color: "text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" },
                 { id: 4, category: "Personal development", label: "Journal daily", completed: false, icon: PenTool, color: "text-purple-500 bg-purple-50 dark:bg-purple-900/20" }
             ]);
+
+            // Food Logic
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const todayName = days[new Date().getDay()];
+            
+            const getMeal = (type) => {
+                const userMeal = meals.find(m => m.day === todayName && m.type === type);
+                if (userMeal) return userMeal.text;
+                const defaultMeal = DEFAULT_MEALS.find(m => m.day === todayName && m.type === type);
+                return defaultMeal ? defaultMeal.text : "Not planned";
+            };
 
             useEffect(() => {
                 const quotes = [
@@ -360,9 +395,9 @@
                 React.createElement("div", { className: "mb-8 flex items-end justify-between" },
                     React.createElement("div", null,
                         React.createElement("h2", { className: "text-xl font-bold text-zinc-400 mb-2 uppercase tracking-widest" }, "My Dashboard"),
-                        React.createElement(TimeWidget)
+                        React.createElement(WeatherWidget)
                     ),
-                    React.createElement(WeatherWidget)
+                    React.createElement(TimeWidget)
                 ),
                 React.createElement("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8" },
                     React.createElement(Card, { className: "lg:col-span-2 relative overflow-hidden group min-h-[200px] flex flex-col justify-center" },
@@ -411,23 +446,37 @@
                     )
                 ),
                 React.createElement("div", { className: "grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8" },
-                    React.createElement(Card, { title: "Focus Timer", className: "flex flex-col justify-center", action: React.createElement("button", { onClick: () => onNavigate('focus'), className: "text-xs font-medium text-indigo-500 hover:text-indigo-400 flex items-center gap-1" }, "Full Mode", React.createElement(ArrowRight, { size: 12 })) },
-                         React.createElement(CompactTimer)
+                    // Left Column: Focus Timer + Food
+                    React.createElement("div", { className: "flex flex-col gap-6" },
+                        React.createElement(Card, { title: "Focus Timer", className: "flex flex-col justify-center", action: React.createElement("button", { onClick: () => onNavigate('focus'), className: "text-xs font-medium text-indigo-500 hover:text-indigo-400 flex items-center gap-1" }, "Full Mode", React.createElement(ArrowRight, { size: 12 })) },
+                             React.createElement(CompactTimer)
+                        ),
+                        React.createElement(Card, { title: "Today's Fuel", className: "flex-1", action: React.createElement("button", { onClick: () => onNavigate('food'), className: "text-xs font-medium text-emerald-500 hover:text-emerald-400 flex items-center gap-1" }, "View Plan", React.createElement(ArrowRight, { size: 12 })) },
+                            React.createElement("div", { className: "space-y-4" },
+                                ['Breakfast', 'Lunch', 'Dinner'].map(type => (
+                                    React.createElement("div", { key: type, className: "flex flex-col" },
+                                        React.createElement("span", { className: "text-[10px] uppercase tracking-wider font-bold text-zinc-400 mb-1" }, type),
+                                        React.createElement("span", { className: "text-sm font-medium text-zinc-700 dark:text-zinc-200 line-clamp-2 leading-snug" }, getMeal(type))
+                                    )
+                                ))
+                            )
+                        )
                     ),
-                    React.createElement(Card, { title: "Daily Focus", className: "lg:col-span-2" },
-                        React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3" },
+                    // Right Column: Daily Focus (Spans 2)
+                    React.createElement(Card, { title: "Daily Focus", className: "lg:col-span-2 h-full" },
+                        React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3 h-full" },
                             habits.map(habit => (
                                 React.createElement("button", { 
                                     key: habit.id,
                                     onClick: () => toggleHabit(habit.id),
-                                    className: `flex items-center gap-3 p-3 rounded-xl border transition-all ${habit.completed ? 'bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-60' : 'bg-white dark:bg-zinc-950 border-zinc-100 dark:border-zinc-800 hover:border-indigo-500/30'}`
+                                    className: `flex items-center gap-3 p-4 rounded-xl border transition-all h-full ${habit.completed ? 'bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-60' : 'bg-white dark:bg-zinc-950 border-zinc-100 dark:border-zinc-800 hover:border-indigo-500/30'}`
                                 },
-                                    React.createElement("div", { className: `w-10 h-10 rounded-full flex items-center justify-center transition-colors ${habit.completed ? 'bg-zinc-200 dark:bg-zinc-800 text-zinc-500' : habit.color}` },
-                                        habit.completed ? React.createElement(CheckCircle2, { size: 18 }) : React.createElement(habit.icon, { size: 18 })
+                                    React.createElement("div", { className: `w-12 h-12 rounded-full flex items-center justify-center transition-colors shrink-0 ${habit.completed ? 'bg-zinc-200 dark:bg-zinc-800 text-zinc-500' : habit.color}` },
+                                        habit.completed ? React.createElement(CheckCircle2, { size: 20 }) : React.createElement(habit.icon, { size: 20 })
                                     ),
                                     React.createElement("div", { className: "flex flex-col items-start flex-1 min-w-0" },
-                                        React.createElement("span", { className: "text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-0.5" }, habit.category),
-                                        React.createElement("span", { className: `text-sm font-medium text-left ${habit.completed ? 'text-zinc-400 line-through' : 'text-zinc-700 dark:text-zinc-200'}` }, habit.label)
+                                        React.createElement("span", { className: "text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-1" }, habit.category),
+                                        React.createElement("span", { className: `text-sm font-bold text-left leading-tight ${habit.completed ? 'text-zinc-400 line-through' : 'text-zinc-800 dark:text-zinc-100'}` }, habit.label)
                                     )
                                 )
                             ))
@@ -723,32 +772,9 @@
             const types = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
             const [viewMode, setViewMode] = useState('day');
             
+            // Correctly map JS getDay() (0=Sun, 1=Mon) to our array index (0=Mon, 6=Sun)
             const todayIndex = (new Date().getDay() + 6) % 7;
             const [activeDayIndex, setActiveDayIndex] = useState(todayIndex);
-
-            const DEFAULT_MEALS = [
-                { day: 'Monday', type: 'Breakfast', text: 'Boiled eggs + bread + tea/coffee' },
-                { day: 'Monday', type: 'Lunch', text: 'Jollof rice + chicken' },
-                { day: 'Monday', type: 'Dinner', text: 'Indomie + boiled egg + veggies' },
-                { day: 'Tuesday', type: 'Breakfast', text: 'Oats with banana + peanut butter' },
-                { day: 'Tuesday', type: 'Lunch', text: 'Leftover jollof rice + chicken' },
-                { day: 'Tuesday', type: 'Dinner', text: 'Grilled chicken wrap (use leftover chicken)' },
-                { day: 'Wednesday', type: 'Breakfast', text: 'Avocado + boiled egg sandwich' },
-                { day: 'Wednesday', type: 'Lunch', text: 'Fried rice + beef/plantain' },
-                { day: 'Wednesday', type: 'Dinner', text: 'Sweet potatoes + egg sauce' },
-                { day: 'Thursday', type: 'Breakfast', text: 'Greek yoghurt + granola + fruit' },
-                { day: 'Thursday', type: 'Lunch', text: 'Leftover fried rice + boiled egg side' },
-                { day: 'Thursday', type: 'Dinner', text: 'Indomie stir fry with mixed vegetables' },
-                { day: 'Friday', type: 'Breakfast', text: 'Toast + fried eggs + baked beans' },
-                { day: 'Friday', type: 'Lunch', text: 'Jollof spaghetti' },
-                { day: 'Friday', type: 'Dinner', text: 'Pizza night' },
-                { day: 'Saturday', type: 'Breakfast', text: 'Pancakes (bulk, freeze, reheat)' },
-                { day: 'Saturday', type: 'Lunch', text: 'White rice + stew (tomato/pepper mix) + chicken/fish' },
-                { day: 'Saturday', type: 'Dinner', text: 'White rice + leftover stew' },
-                { day: 'Sunday', type: 'Breakfast', text: 'Plantain + scrambled eggs' },
-                { day: 'Sunday', type: 'Lunch', text: 'White spaghetti & sauce' },
-                { day: 'Sunday', type: 'Dinner', text: 'Beans & plantain' }
-            ];
 
             const getMeal = (day, type) => {
                 const userMeal = meals.find(m => m.day === day && m.type === type);
@@ -767,6 +793,7 @@
             };
 
             return React.createElement("div", { className: "h-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24 md:pb-0" },
+                // Header & View Toggle
                 React.createElement("div", { className: "flex justify-between items-center mb-6" },
                     React.createElement("div", null,
                         React.createElement("h3", { className: "text-2xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2" }, "Nutrition Protocol ", React.createElement("span", { className: "px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1" }, React.createElement(Utensils, { size: 12 }), " Fuel")),
@@ -785,12 +812,15 @@
                 ),
 
                 viewMode === 'day' ? (
+                    // Day View
                     React.createElement("div", { className: "flex-1 overflow-y-auto" },
+                        // Day Navigator
                         React.createElement("div", { className: "flex items-center justify-between mb-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-3 rounded-xl" },
                             React.createElement("button", { onClick: () => setActiveDayIndex((prev) => (prev - 1 + 7) % 7), className: "p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg text-zinc-500 transition-colors" }, React.createElement(ChevronLeft, { size: 20 })),
                             React.createElement("span", { className: "font-bold text-xl text-zinc-800 dark:text-zinc-100 w-32 text-center" }, days[activeDayIndex]),
                             React.createElement("button", { onClick: () => setActiveDayIndex((prev) => (prev + 1) % 7), className: "p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg text-zinc-500 transition-colors" }, React.createElement(ChevronRight, { size: 20 }))
                         ),
+                        // Meal Cards
                         React.createElement("div", { className: "grid grid-cols-1 gap-4 pb-4" },
                             types.map(type => (
                                 React.createElement("div", { key: type, className: "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm hover:border-emerald-500/30 transition-all" },
@@ -808,6 +838,7 @@
                         )
                     )
                 ) : (
+                    // Week View
                     React.createElement("div", { className: "flex-1 overflow-y-auto space-y-6 pr-2 pb-4" },
                         days.map(day => (
                             React.createElement("div", { key: day, className: "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden" },
@@ -1197,7 +1228,7 @@
                             React.createElement("div", { className: "w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-200 dark:border-indigo-800" }, "LO")
                         )
                     ),
-                    activeTab === 'dashboard' && React.createElement(DashboardView, { notes, onAddNote: handleAddNote, onNavigate: setActiveTab }),
+                    activeTab === 'dashboard' && React.createElement(DashboardView, { notes, onAddNote: handleAddNote, onNavigate: setActiveTab, meals }),
                     activeTab === 'focus' && React.createElement(FocusView),
                     activeTab === 'brainstorm' && React.createElement(BrainstormView, { notes, onAddNote: handleAddNote, onUpdateNote: handleUpdateNote, onDeleteNote: handleDeleteNote }),
                     activeTab === 'braindump' && React.createElement(BrainDumpView, { dumps, onAddDump: handleAddDump, onDeleteDump: handleDeleteDump }),

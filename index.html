@@ -116,27 +116,40 @@
 
         // --- DATA ---
         const DEFAULT_MEALS = [
-            { day: 'Monday', type: 'Breakfast', text: 'Boiled eggs + bread + tea/coffee' },
-            { day: 'Monday', type: 'Lunch', text: 'Jollof rice + chicken' },
-            { day: 'Monday', type: 'Dinner', text: 'Indomie + boiled egg + veggies' },
-            { day: 'Tuesday', type: 'Breakfast', text: 'Oats with banana + peanut butter' },
-            { day: 'Tuesday', type: 'Lunch', text: 'Leftover jollof rice + chicken' },
-            { day: 'Tuesday', type: 'Dinner', text: 'Grilled chicken wrap (use leftover chicken)' },
-            { day: 'Wednesday', type: 'Breakfast', text: 'Avocado + boiled egg sandwich' },
-            { day: 'Wednesday', type: 'Lunch', text: 'Fried rice + beef/plantain' },
-            { day: 'Wednesday', type: 'Dinner', text: 'Sweet potatoes + egg sauce' },
-            { day: 'Thursday', type: 'Breakfast', text: 'Greek yoghurt + granola + fruit' },
-            { day: 'Thursday', type: 'Lunch', text: 'Leftover fried rice + boiled egg side' },
-            { day: 'Thursday', type: 'Dinner', text: 'Indomie stir fry with mixed vegetables' },
-            { day: 'Friday', type: 'Breakfast', text: 'Toast + fried eggs + baked beans' },
-            { day: 'Friday', type: 'Lunch', text: 'Jollof spaghetti' },
-            { day: 'Friday', type: 'Dinner', text: 'Pizza night' },
-            { day: 'Saturday', type: 'Breakfast', text: 'Pancakes (bulk, freeze, reheat)' },
-            { day: 'Saturday', type: 'Lunch', text: 'White rice + stew (tomato/pepper mix) + chicken/fish' },
-            { day: 'Saturday', type: 'Dinner', text: 'White rice + leftover stew' },
-            { day: 'Sunday', type: 'Breakfast', text: 'Plantain + scrambled eggs' },
-            { day: 'Sunday', type: 'Lunch', text: 'White spaghetti & sauce' },
-            { day: 'Sunday', type: 'Dinner', text: 'Beans & plantain' }
+            { day: 'Monday', type: 'Breakfast', text: 'Oats + milk\n1 banana\n1 scoop protein powder' },
+            { day: 'Monday', type: 'Lunch', text: 'Chicken stew\nWhite rice\n½ avocado' },
+            { day: 'Monday', type: 'Snack', text: 'Greek yoghurt + apple' },
+            { day: 'Monday', type: 'Dinner', text: 'Spaghetti + grilled chicken breast\n(Night: Milo + milk)' },
+            
+            { day: 'Tuesday', type: 'Breakfast', text: '3 eggs (boiled or scrambled)\nBread + peanut butter\nGrapes' },
+            { day: 'Tuesday', type: 'Lunch', text: 'Jollof rice\nChicken thigh' },
+            { day: 'Tuesday', type: 'Snack', text: 'Protein shake (milk + protein powder)' },
+            { day: 'Tuesday', type: 'Dinner', text: 'Sardines\nBoiled potatoes' },
+            
+            { day: 'Wednesday', type: 'Breakfast', text: 'Cereal + milk\nBanana' },
+            { day: 'Wednesday', type: 'Lunch', text: 'Chicken breast\nRice\nAvocado' },
+            { day: 'Wednesday', type: 'Snack', text: 'Greek yoghurt + grapes' },
+            { day: 'Wednesday', type: 'Dinner', text: 'Spaghetti + chicken stew' },
+            
+            { day: 'Thursday', type: 'Breakfast', text: 'Oats + milk\nApple\n1 scoop protein' },
+            { day: 'Thursday', type: 'Lunch', text: 'Chicken stew\nRice' },
+            { day: 'Thursday', type: 'Snack', text: 'Bread + peanut butter' },
+            { day: 'Thursday', type: 'Dinner', text: 'Sardines\nPotatoes' },
+            
+            { day: 'Friday', type: 'Breakfast', text: '3 eggs\nBread + jam\nBanana' },
+            { day: 'Friday', type: 'Lunch', text: 'Jollof rice\nChicken breast' },
+            { day: 'Friday', type: 'Snack', text: 'Greek yoghurt' },
+            { day: 'Friday', type: 'Dinner', text: 'Pasta + grilled chicken thigh' },
+            
+            { day: 'Saturday', type: 'Breakfast', text: 'Cereal + milk\nGrapes' },
+            { day: 'Saturday', type: 'Lunch', text: 'Chicken thigh\nRice + avocado' },
+            { day: 'Saturday', type: 'Snack', text: 'Protein shake' },
+            { day: 'Saturday', type: 'Dinner', text: 'Eggs (omelette)\nBread' },
+            
+            { day: 'Sunday', type: 'Breakfast', text: 'Oats + milk\nBanana' },
+            { day: 'Sunday', type: 'Lunch', text: 'Rice + sardines' },
+            { day: 'Sunday', type: 'Snack', text: 'Greek yoghurt + apple' },
+            { day: 'Sunday', type: 'Dinner', text: 'Chicken stew\nPotatoes' }
         ];
 
         const BIBLE_TOPICS = [
@@ -556,7 +569,7 @@
                 
                 // NEW SECTION: Life Strategy & AI
                 React.createElement("h3", { className: "text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-4 flex items-center gap-2" }, React.createElement(Target, { size: 16 }), " Strategy & Intelligence"),
-                React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8" },
+                React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8" },
                     React.createElement(Card, { title: "MyLife Blueprint", className: "md:col-span-1", action: React.createElement("a", { href: "https://www.notion.so/Blueprint-of-my-life-2cce1ae8ad3280abba74e8b4e8849b12", target: "_blank", className: "text-indigo-500 hover:text-indigo-400" }, React.createElement(ExternalLink, { size: 16 })) },
                         React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-2 text-center" },
                             React.createElement(MapPin, { size: 24, className: "text-indigo-500 mb-2" }),
@@ -573,6 +586,12 @@
                         React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-2 text-center" },
                             React.createElement(Layout, { size: 24, className: "text-purple-500 mb-2" }),
                             React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200 text-sm" }, "Visual Workspace")
+                        )
+                    ),
+                    React.createElement(Card, { title: "Kaizen Space", className: "md:col-span-1", action: React.createElement("a", { href: "https://thekaizenspace.netlify.app/", target: "_blank", className: "text-indigo-500 hover:text-indigo-400" }, React.createElement(ExternalLink, { size: 16 })) },
+                        React.createElement("div", { className: "flex flex-col items-center justify-center h-full py-2 text-center" },
+                            React.createElement(Briefcase, { size: 24, className: "text-blue-500 mb-2" }),
+                            React.createElement("span", { className: "font-medium text-zinc-700 dark:text-zinc-200 text-sm" }, "Work Productivity")
                         )
                     ),
                      React.createElement(Card, { title: "AI Command", className: "md:col-span-1" },

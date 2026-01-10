@@ -249,7 +249,13 @@
             { day: 'Sunday', type: 'Dinner', text: 'Chicken stew\nPotatoes' }
         ];
 
-        // --- RESTORED WORKOUT PLANS ---
+        const WORKOUT_PLAN = [
+            { id: 'day1', title: "Day 1 – Chest & Triceps", icon: Flame, color: "text-orange-500", warmup: ["Light DB presses – 15 reps", "Arm circles"], exercises: [{ name: "DB Floor Press", sets: "4", reps: "8–12" }, { name: "DB Chest Fly", sets: "3", reps: "10–15" }, { name: "Neutral-grip DB Press", sets: "3", reps: "8–12" }, { name: "Overhead DB Tri Ext", sets: "3", reps: "10–15" }], finisher: "DB Floor Press hold – 3 × 30s" },
+            { id: 'day2', title: "Day 2 – Legs (DB Only)", icon: Activity, color: "text-blue-500", warmup: ["Bodyweight squats – 20", "Leg swings"], exercises: [{ name: "Goblet Squats", sets: "4", reps: "10–15" }, { name: "DB RDLs", sets: "4", reps: "8–12" }, { name: "Walking Lunges", sets: "3", reps: "10/leg" }, { name: "DB Step-Ups", sets: "3", reps: "10/leg" }], finisher: "Goblet squat hold – 2 rounds" },
+            { id: 'day3', title: "Day 3 – Shoulders & Arms", icon: Dumbbell, color: "text-emerald-500", warmup: ["Light DB raises", "Arm swings"], exercises: [{ name: "Seated DB Press", sets: "4", reps: "8–12" }, { name: "DB Lateral Raises", sets: "4", reps: "12–15" }, { name: "DB Front Raises", sets: "3", reps: "12" }, { name: "Alt DB Curls", sets: "3", reps: "10–12" }], finisher: "Lateral raise partials – 2 × 30s" },
+            { id: 'day4', title: "Day 4 – Arms + Chest Pump", icon: Zap, color: "text-purple-500", subtitle: "Short, intense.", warmup: [], exercises: [{ name: "DB Floor Press", sets: "4", reps: "12–15" }, { name: "Squeeze Press", sets: "3", reps: "12" }, { name: "Concentration Curls", sets: "3", reps: "10/arm" }, { name: "21s DB Curls", sets: "2", reps: "rounds" }], finisher: "Curl → press combo" }
+        ];
+
         const GYM_WORKOUT_PLAN = [
             {
                 id: 'gym1',
@@ -313,68 +319,7 @@
             }
         ];
 
-        const HOME_WORKOUT_PLAN = [
-            {
-                id: 'home1',
-                title: "Day 1: Chest & Triceps (DB)",
-                icon: Flame,
-                color: "text-orange-500",
-                warmup: ["Jumping Jacks", "Arm Circles", "Wall Pushups"],
-                exercises: [
-                    { name: "DB Floor Press", sets: "4", reps: "10-12" },
-                    { name: "DB Chest Flys (Floor/Bench)", sets: "3", reps: "12-15" },
-                    { name: "Pushups (knees if needed)", sets: "3", reps: "Failure" },
-                    { name: "Overhead DB Tricep Ext", sets: "3", reps: "12-15" },
-                    { name: "DB Kickbacks", sets: "3", reps: "12" }
-                ],
-                finisher: "Close-grip Pushups 2 sets"
-            },
-            {
-                id: 'home2',
-                title: "Day 2: Legs (DB)",
-                icon: Activity,
-                color: "text-blue-500",
-                warmup: ["Bodyweight squats", "High Knees"],
-                exercises: [
-                    { name: "Goblet Squats", sets: "4", reps: "12-15" },
-                    { name: "DB Romanian Deadlifts", sets: "4", reps: "10-12" },
-                    { name: "Reverse Lunges", sets: "3", reps: "10/leg" },
-                    { name: "DB Step-Ups (Chair)", sets: "3", reps: "10/leg" },
-                    { name: "Standing Calf Raises (holding DB)", sets: "4", reps: "20" }
-                ],
-                finisher: "Wall Sit (2 x 45s)"
-            },
-            {
-                id: 'home3',
-                title: "Day 3: Shoulders (DB)",
-                icon: Dumbbell,
-                color: "text-emerald-500",
-                warmup: ["Arm Swings", "Light DB Press"],
-                exercises: [
-                    { name: "Seated/Standing DB Press", sets: "4", reps: "10-12" },
-                    { name: "DB Lateral Raises", sets: "4", reps: "12-15" },
-                    { name: "DB Front Raises", sets: "3", reps: "12" },
-                    { name: "DB Rear Delt Flys", sets: "3", reps: "12-15" },
-                    { name: "DB Shrugs", sets: "3", reps: "15" }
-                ],
-                finisher: "DB Hold (hold weights at sides) 60s"
-            },
-            {
-                id: 'home4',
-                title: "Day 4: Arms (Bi & Tri)",
-                icon: Zap,
-                color: "text-purple-500",
-                warmup: ["Jumping Jacks", "Arm Circles"],
-                exercises: [
-                    { name: "Standing DB Curls", sets: "4", reps: "10-12" },
-                    { name: "DB Hammer Curls", sets: "3", reps: "12" },
-                    { name: "Concentration Curls", sets: "3", reps: "10/arm" },
-                    { name: "DB Skullcrushers (Floor)", sets: "4", reps: "12" },
-                    { name: "Chair Dips", sets: "3", reps: "Failure" }
-                ],
-                finisher: "21s (Bicep Curls) - 1 Set"
-            }
-        ];
+        const HOME_WORKOUT_PLAN = WORKOUT_PLAN; // Reuse the DB only plan for Home
 
         const BIBLE_TOPICS = [
             { title: "Finance & Wealth", desc: "Stewardship & trust.", verses: ["Prov 22:7", "Matt 6:24"], chapters: ["Prov 3", "Matt 6"] },

@@ -117,7 +117,7 @@
             List, Grid, Columns, Utensils, FileText, Trash, ShieldAlert, Flame, Volume2, ChevronLeft,
             ListTodo, ArrowUpRight, CheckSquare, Flower2, Dumbbell, Github, Bot, Newspaper, QrCode,
             Waves, Wind, Mountain, Footprints, Ban, ShieldCheck, Milestone, User, LogIn, ArrowLeft, Info,
-            Eye, EyeOff, Hourglass, AlertTriangle, Check, Cpu
+            Eye, EyeOff, Hourglass, AlertTriangle, Check, Cpu, Scroll
         } from "https://esm.sh/lucide-react@0.344.0?deps=react@18.2.0";
 
         // --- SUPABASE IMPORT ---
@@ -196,8 +196,79 @@
             { id: 'ocean', label: 'Ocean', icon: Waves, url: 'https://cdn.pixabay.com/audio/2022/08/04/audio_2ede959ecd.mp3' },
             { id: 'thunder', label: 'Thunder', icon: CloudLightning, url: 'https://cdn.pixabay.com/audio/2021/08/09/audio_2771746270.mp3' }
         ];
-        const DAILY_SPIRITUALITY = [{ verse: "Joshua 1:9", text: "Be strong and courageous...", prayer: "Lord, grant me courage.", encouragement: "You are never alone." }];
-        const BIBLE_BOOKS = [{ category: "Foundations", books: [{ name: "Genesis", theme: "Beginnings", app: "Family & Legacy", keys: "Gen 1" }] }];
+        
+        const BIBLE_BOOKS_LIB = [
+            { category: "Old Testament - Law", books: [
+                { n: "Genesis", t: "Origins & Family", d: "How family patterns and trauma are passed down, and God's plan to redeem them." },
+                { n: "Exodus", t: "Liberation", d: "Breaking free from slavery (addictions/habits) and learning to trust a new leader." },
+                { n: "Leviticus", t: "Holiness", d: "The importance of distinguishing between the clean and unclean in a chaotic world." },
+                { n: "Numbers", t: "Wandering", d: "The cost of complaining and lack of faith during transition periods." },
+                { n: "Deuteronomy", t: "Remembrance", d: "The importance of remembering your values before entering a new season of success." }
+            ]},
+            { category: "Old Testament - History", books: [
+                { n: "Joshua", t: "Courage", d: "Stepping into your potential requires overcoming fear and taking calculated risks." },
+                { n: "Judges", t: "Moral Compromise", d: "What happens to society when 'everyone does what is right in their own eyes'." },
+                { n: "Ruth", t: "Loyalty", d: "How unexpected loyalty and integrity can redeem a broken family line." },
+                { n: "1 & 2 Samuel", t: "Leadership & Integrity", d: "The rise and fall of leaders; character matters more than charisma." },
+                { n: "1 & 2 Kings", t: "Legacy", d: "How the choices of one generation affect the spiritual health of the next." },
+                { n: "Ezra & Nehemiah", t: "Rebuilding", d: "Strategic leadership and resilience in rebuilding what was destroyed." },
+                { n: "Esther", t: "Providence", d: "Finding courage to speak up when God places you in a position of influence." }
+            ]},
+            { category: "Wisdom & Poetry", books: [
+                { n: "Job", t: "Suffering", d: "Navigating pain when it makes no sense and friends give bad advice." },
+                { n: "Psalms", t: "Emotional Honesty", d: "A guide to processing every human emotion—joy, rage, grief—before God." },
+                { n: "Proverbs", t: "Practical Wisdom", d: "Timeless hacks for money, relationships, and decision-making." },
+                { n: "Ecclesiastes", t: "Meaning", d: "Finding satisfaction when worldly success feels empty ('vapor')." },
+                { n: "Song of Songs", t: "Intimacy", d: "The beauty and sacredness of romantic love and desire." }
+            ]},
+            { category: "Prophets", books: [
+                { n: "Isaiah", t: "Salvation", d: "A vision of a God who is holy yet eager to save and comfort." },
+                { n: "Jeremiah", t: "Persistence", d: "Remaining faithful to your calling even when no one listens to you." },
+                { n: "Daniel", t: "Integrity in Exile", d: "Thriving in a hostile culture without compromising your core identity." },
+                { n: "Jonah", t: "Prejudice", d: "Confronting the fact that God might love the people you hate." }
+            ]},
+            { category: "New Testament - Gospels & Acts", books: [
+                { n: "Matthew", t: "The Kingdom", d: "Jesus as the true King who redefines what success and authority look like." },
+                { n: "Mark", t: "Action", d: "A fast-paced look at Jesus as a servant-leader who suffers for others." },
+                { n: "Luke", t: "Compassion", d: "Jesus's focus on the marginalized, the poor, and the social outcasts." },
+                { n: "John", t: "Identity", d: "Understanding Jesus as the divine Logos (Reason) that holds the universe together." },
+                { n: "Acts", t: "Movement", d: "How a small group of people turned the world upside down through the Spirit." }
+            ]},
+            { category: "Epistles (Letters)", books: [
+                { n: "Romans", t: "The Gospel", d: "A logical, legal, and passionate explanation of how God fixes broken humans." },
+                { n: "1 & 2 Corinthians", t: "Community Mess", d: "Navigating conflict, sex, and ego within a community." },
+                { n: "Galatians", t: "Freedom", d: "Breaking free from religious performance and legalism." },
+                { n: "Ephesians", t: "Identity", d: "You are seated with Christ; your behavior flows from your identity, not vice versa." },
+                { n: "Philippians", t: "Joy", d: "Finding contentment regardless of your external circumstances." },
+                { n: "James", t: "Consistency", d: "Faith without action is dead; real religion controls the tongue and helps the poor." },
+                { n: "1 & 2 Peter", t: "Resilience", d: "How to handle suffering and social ostracization with grace." },
+                { n: "Revelation", t: "Hope", d: "The final victory of Good over Evil; history has a destination." }
+            ]}
+        ];
+
+        const BIBLE_CHARACTERS_LIB = [
+            { n: "Eve", t: "Curiosity & Deception", d: "The mother of all, who engaged with a question that challenged reality." },
+            { n: "Noah", t: "Obedience", d: "Built a boat in the desert for decades because he heard a voice. Ultimate contrarian." },
+            { n: "Abraham", t: "Faith", d: "Left everything familiar to follow a promise. The father of faith." },
+            { n: "Jacob", t: "Wrestling", d: "A deceiver who wrestled with God and came out with a limp and a blessing." },
+            { n: "Joseph", t: "Resilience", d: "Betrayed, enslaved, imprisoned, yet rose to save nations. Master of emotional IQ." },
+            { n: "Moses", t: "Leadership", d: "A stuttering murderer turned liberator. Struggled with imposter syndrome." },
+            { n: "Rahab", t: "Redemption", d: "A prostitute who bet on the right God and became an ancestor of Jesus." },
+            { n: "Samson", t: "Lust & Strength", d: "Had supernatural power but zero self-control. A cautionary tale of wasted potential." },
+            { n: "Ruth", t: "Loyalty", d: "An outsider who showed extreme loyalty and found redemption." },
+            { n: "David", t: "Passion & Flaw", d: "Warrior poet. Killed giants, wrote songs, committed adultery/murder, repented deeply." },
+            { n: "Solomon", t: "Wisdom & Folly", d: "The wisest man who ever lived, who let women turn his heart away. Wrote Ecclesiastes." },
+            { n: "Elijah", t: "Burnout", d: "Called down fire from heaven, then ran away and asked to die. A study in mental health." },
+            { n: "Esther", t: "Courage", d: "Used her beauty and position to save her people. 'For such a time as this.'" },
+            { n: "Job", t: "Endurance", d: "Lost everything—wealth, health, kids—and refused to curse God." },
+            { n: "Peter", t: "Impulsiveness", d: "Walked on water, cut off an ear, denied Jesus, then led the church. The God of second chances." },
+            { n: "Paul", t: "Transformation", d: "Terrorist turned missionary. Wrote half the NT. Intellectual powerhouse." },
+            { n: "Thomas", t: "Doubt", d: "The skeptic who needed proof, and Jesus gave it to him without shame." },
+            { n: "Mary Magdalene", t: "Devotion", d: "Delivered from demons, she was the first witness to the Resurrection." },
+            { n: "Judas", t: "Greed", d: "Walked with God for 3 years and missed the point entirely. Money was his idol." },
+            { n: "Stephen", t: "Conviction", d: " The first martyr. Preached truth to power and died forgiving his killers." }
+        ];
+        
         const DEFAULT_TOOLS = [{ id: 't1', category: 'Productivity HQ', name: 'ChatGPT', url: 'https://chat.openai.com/', icon: 'Bot' }];
 
         // --- HELPERS ---
@@ -961,21 +1032,96 @@
         };
 
         const SpiritualityView = ({ notes, onAddNote, onDeleteNote }) => {
+            const [activeSubTab, setActiveSubTab] = useState("journal"); // journal, books, people
             const [input, setInput] = useState("");
-            return React.createElement("div", { className: "p-4 pb-24" },
-                React.createElement("h2", { className: "text-3xl font-bold text-white mb-6" }, "Spirituality"),
-                React.createElement("div", { className: "mb-8 bg-zinc-900 p-4 rounded-2xl border border-zinc-800" },
-                    React.createElement("textarea", { value: input, onChange: e => setInput(e.target.value), className: "w-full bg-transparent text-white resize-none h-24 focus:outline-none placeholder:text-zinc-600", placeholder: "Prayer/Notes..." }),
-                    React.createElement("div", { className: "flex justify-end mt-2" },
-                        React.createElement("button", { onClick: () => { if(input.trim()) { onAddNote(input); setInput(""); }}, className: "px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold hover:bg-indigo-500 transition-colors" }, "Save Entry")
+
+            return React.createElement("div", { className: "p-4 pb-24 h-full flex flex-col" },
+                // Header
+                React.createElement("div", { className: "flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6" },
+                    React.createElement("h2", { className: "text-3xl font-bold text-white" }, "Spirituality"),
+                    
+                    // Sub-navigation
+                    React.createElement("div", { className: "flex p-1 bg-zinc-900 rounded-lg border border-zinc-800 self-start md:self-auto" },
+                        [
+                            { id: "journal", label: "Journal", icon: Edit3 },
+                            { id: "books", label: "Books", icon: Book },
+                            { id: "people", label: "People", icon: Users }
+                        ].map(tab => 
+                            React.createElement("button", {
+                                key: tab.id,
+                                onClick: () => setActiveSubTab(tab.id),
+                                className: `px-4 py-2 rounded-md text-sm font-bold flex items-center gap-2 transition-all ${activeSubTab === tab.id ? 'bg-indigo-600 text-white shadow-sm' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`
+                            }, React.createElement(tab.icon, { size: 14 }), tab.label)
+                        )
                     )
                 ),
-                React.createElement("div", { className: "space-y-4" }, 
-                    notes.length === 0 ? React.createElement("div", { className: "text-center text-zinc-600 py-8" }, "No entries yet.") :
-                    notes.map(n => React.createElement("div", { key: n.id, className: "p-5 border border-zinc-800 rounded-2xl bg-zinc-900/30 flex justify-between group hover:border-zinc-700 transition-all" }, 
-                        React.createElement("p", { className: "text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap" }, n.text), 
-                        React.createElement("button", { onClick: () => onDeleteNote(n.id), className: "text-zinc-600 hover:text-red-500 opacity-0 group-hover:opacity-100 ml-4" }, React.createElement(Trash, { size: 14 }))
-                    ))
+
+                // Content Area
+                React.createElement("div", { className: "flex-1 overflow-y-auto custom-scrollbar pr-2" },
+                    
+                    // JOURNAL TAB
+                    activeSubTab === "journal" && React.createElement("div", { className: "space-y-6 animate-in fade-in slide-in-from-bottom-2" },
+                        React.createElement("div", { className: "bg-zinc-900 p-4 rounded-2xl border border-zinc-800" },
+                            React.createElement("textarea", { 
+                                value: input, 
+                                onChange: e => setInput(e.target.value), 
+                                className: "w-full bg-transparent text-white resize-none h-24 focus:outline-none placeholder:text-zinc-600", 
+                                placeholder: "Prayer requests, insights, or gratitude..." 
+                            }),
+                            React.createElement("div", { className: "flex justify-end mt-2" },
+                                React.createElement("button", { 
+                                    onClick: () => { if(input.trim()) { onAddNote(input); setInput(""); }}, 
+                                    className: "px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold hover:bg-indigo-500 transition-colors" 
+                                }, "Save Entry")
+                            )
+                        ),
+                        React.createElement("div", { className: "space-y-3" }, 
+                            notes.length === 0 ? React.createElement("div", { className: "text-center text-zinc-600 py-8 italic" }, "Your spiritual journal is empty.") :
+                            notes.map(n => React.createElement("div", { key: n.id, className: "p-5 border border-zinc-800 rounded-2xl bg-zinc-900/30 flex justify-between group hover:border-zinc-700 transition-all" }, 
+                                React.createElement("p", { className: "text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap" }, n.text), 
+                                React.createElement("button", { onClick: () => onDeleteNote(n.id), className: "text-zinc-600 hover:text-red-500 opacity-0 group-hover:opacity-100 ml-4 self-start" }, React.createElement(Trash, { size: 14 }))
+                            ))
+                        )
+                    ),
+
+                    // BOOKS TAB
+                    activeSubTab === "books" && React.createElement("div", { className: "space-y-8 animate-in fade-in slide-in-from-bottom-2" },
+                        BIBLE_BOOKS_LIB.map((section, idx) => 
+                            React.createElement("div", { key: idx, className: "space-y-3" },
+                                React.createElement("h3", { className: "text-indigo-400 font-bold text-xs uppercase tracking-widest sticky top-0 bg-zinc-950 py-2 z-10 border-b border-zinc-900" }, section.category),
+                                React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3" },
+                                    section.books.map((book, bIdx) => 
+                                        React.createElement("div", { key: bIdx, className: "p-4 bg-zinc-900/40 border border-zinc-800 rounded-xl hover:border-zinc-600 transition-colors group" },
+                                            React.createElement("div", { className: "flex justify-between items-start mb-2" },
+                                                React.createElement("h4", { className: "font-bold text-white text-lg" }, book.n),
+                                                React.createElement("span", { className: "text-[10px] font-bold bg-zinc-800 text-zinc-400 px-2 py-1 rounded-md uppercase tracking-wider" }, book.t)
+                                            ),
+                                            React.createElement("p", { className: "text-sm text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors" }, book.d)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+
+                    // PEOPLE TAB
+                    activeSubTab === "people" && React.createElement("div", { className: "animate-in fade-in slide-in-from-bottom-2" },
+                        React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" },
+                            BIBLE_CHARACTERS_LIB.map((person, idx) => 
+                                React.createElement("div", { key: idx, className: "relative overflow-hidden p-5 bg-zinc-900/30 border border-zinc-800 rounded-2xl hover:bg-zinc-900 hover:border-indigo-500/30 transition-all group" },
+                                    React.createElement("div", { className: "absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity" }, React.createElement(User, { size: 48 })),
+                                    React.createElement("div", { className: "relative z-10" },
+                                        React.createElement("h4", { className: "text-xl font-bold text-white mb-1" }, person.n),
+                                        React.createElement("div", { className: "flex items-center gap-2 mb-3" },
+                                            React.createElement("span", { className: "w-1.5 h-1.5 rounded-full bg-indigo-500" }),
+                                            React.createElement("span", { className: "text-xs font-bold text-indigo-300 uppercase tracking-wide" }, person.t)
+                                        ),
+                                        React.createElement("p", { className: "text-sm text-zinc-400 leading-relaxed" }, person.d)
+                                    )
+                                )
+                            )
+                        )
+                    )
                 )
             );
         };

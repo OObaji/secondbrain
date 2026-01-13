@@ -160,24 +160,24 @@
         const DEFAULT_TOOLS_CATEGORIES = ['General', 'Development', 'Design', 'Productivity', 'Finance'];
         const DEFAULT_TOOLS = [{ id: 't1', category: 'General', name: 'ChatGPT', url: 'https://chat.openai.com/', icon: 'Bot' }];
 
+        // UPDATED: 4-Day Gym Plan
         const GYM_WORKOUT_PLAN = [
-            { id: 'gym1', title: "Day 1: Chest & Triceps", icon: Flame, color: "text-rose-500", warmup: ["5min Treadmill", "Arm Circles"], exercises: [{ name: "Bench Press", sets: "4", reps: "8-10" }, { name: "Incline DB Press", sets: "3", reps: "10-12" }, { name: "Cable Flys", sets: "3", reps: "12-15" }, { name: "Tricep Pushdowns", sets: "4", reps: "12-15" }], finisher: "Pushup burnout" },
-            { id: 'gym2', title: "Day 2: Back & Biceps", icon: Activity, color: "text-blue-500", warmup: ["5min Rower", "Band Pull-aparts"], exercises: [{ name: "Lat Pulldowns", sets: "4", reps: "10-12" }, { name: "Seated Cable Row", sets: "4", reps: "10-12" }, { name: "DB Row", sets: "3", reps: "10/side" }, { name: "Barbell Curls", sets: "3", reps: "10-12" }], finisher: "Face Pulls 3x15" }
+            { id: 'gym1', title: "Day 1: Chest & Triceps", icon: Flame, color: "text-rose-500", warmup: ["5min Treadmill", "Arm Circles"], exercises: [{ name: "Bench Press", sets: "4", reps: "8-10" }, { name: "Incline DB Press", sets: "3", reps: "10-12" }, { name: "Cable Flys", sets: "3", reps: "12-15" }, { name: "Tricep Pushdowns", sets: "4", reps: "12-15" }, { name: "Skullcrushers", sets: "3", reps: "10-12" }], finisher: "Pushup burnout" },
+            { id: 'gym2', title: "Day 2: Back & Biceps", icon: Activity, color: "text-blue-500", warmup: ["5min Rower", "Band Pull-aparts"], exercises: [{ name: "Lat Pulldowns", sets: "4", reps: "10-12" }, { name: "Seated Cable Row", sets: "4", reps: "10-12" }, { name: "DB Row", sets: "3", reps: "10/side" }, { name: "Barbell Curls", sets: "3", reps: "10-12" }, { name: "Hammer Curls", sets: "3", reps: "12" }], finisher: "Face Pulls 3x15" },
+            { id: 'gym3', title: "Day 3: Legs", icon: Dumbbell, color: "text-emerald-500", warmup: ["Bodyweight Squats", "Leg Swings"], exercises: [{ name: "Barbell Squats", sets: "4", reps: "6-8" }, { name: "Leg Press", sets: "3", reps: "10-12" }, { name: "RDLs", sets: "4", reps: "10" }, { name: "Leg Extensions", sets: "3", reps: "15" }, { name: "Calf Raises", sets: "4", reps: "15-20" }], finisher: "Walking Lunges" },
+            { id: 'gym4', title: "Day 4: Shoulders & Abs", icon: Zap, color: "text-purple-500", warmup: ["Dislocations", "Light DB press"], exercises: [{ name: "Overhead Press", sets: "4", reps: "8-10" }, { name: "Lateral Raises", sets: "4", reps: "12-15" }, { name: "Front Plate Raise", sets: "3", reps: "12" }, { name: "Cable Crunches", sets: "4", reps: "15" }, { name: "Leg Raises", sets: "3", reps: "12" }], finisher: "Plank (3 x 1 min)" }
         ];
 
         const HOME_WORKOUT_PLAN = [
              { id: 'home1', title: "Day 1: Upper Push (DB)", icon: Flame, color: "text-orange-500", warmup: ["Jumping Jacks"], exercises: [{ name: "DB Floor Press", sets: "4", reps: "12" }, { name: "Pushups", sets: "3", reps: "Failure" }, { name: "Shoulder Press", sets: "4", reps: "12" }, { name: "Lateral Raises", sets: "3", reps: "15" }], finisher: "Pushups to failure" },
-             { id: 'home2', title: "Day 2: Lower Body (DB)", icon: Activity, color: "text-blue-500", warmup: ["Squats"], exercises: [{ name: "Goblet Squats", sets: "4", reps: "15" }, { name: "DB RDL", sets: "4", reps: "12" }, { name: "Lunges", sets: "3", reps: "12/leg" }], finisher: "Wall Sit" }
+             { id: 'home2', title: "Day 2: Lower Body (DB)", icon: Activity, color: "text-blue-500", warmup: ["Squats"], exercises: [{ name: "Goblet Squats", sets: "4", reps: "15" }, { name: "DB RDL", sets: "4", reps: "12" }, { name: "Lunges", sets: "3", reps: "12/leg" }], finisher: "Wall Sit" },
+             { id: 'home3', title: "Day 3: Full Body", icon: Zap, color: "text-emerald-500", warmup: ["Run 10 mins"], exercises: [{ name: "Burpees", sets: "4", reps: "10" }, { name: "Thrusters", sets: "3", reps: "12" }, { name: "Renegade Rows", sets: "3", reps: "10/side" }], finisher: "Mountain Climbers" },
+             { id: 'home4', title: "Day 4: Core & Cardio", icon: Heart, color: "text-rose-500", warmup: ["High Knees"], exercises: [{ name: "Plank", sets: "4", reps: "1 min" }, { name: "Leg Raises", sets: "3", reps: "15" }, { name: "Russian Twists", sets: "3", reps: "20" }], finisher: "Sprints" }
         ];
         
         const FOCUS_SOUNDS = [
             { id: 'rain', label: 'Rain', icon: CloudRain, url: 'https://cdn.pixabay.com/audio/2022/07/04/audio_24e0f0656f.mp3' },
-            { id: 'forest', label: 'Forest', icon: CloudSun, url: 'https://cdn.pixabay.com/audio/2021/09/06/audio_0172e2593d.mp3' },
-            { id: 'fire', label: 'Fire', icon: Flame, url: 'https://cdn.pixabay.com/audio/2022/02/07/audio_651a141566.mp3' },
-            { id: 'cafe', label: 'Cafe', icon: Coffee, url: 'https://cdn.pixabay.com/audio/2017/08/07/22/32/people-2609204_1280.mp3' },
-            { id: 'lofi', label: 'Lofi', icon: Music, url: 'https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3' },
-            { id: 'ocean', label: 'Ocean', icon: Waves, url: 'https://cdn.pixabay.com/audio/2022/08/04/audio_2ede959ecd.mp3' },
-            { id: 'thunder', label: 'Thunder', icon: CloudLightning, url: 'https://cdn.pixabay.com/audio/2021/08/09/audio_2771746270.mp3' }
+            { id: 'lofi', label: 'Lofi', icon: Music, url: 'https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3' }
         ];
 
         const BIBLE_BOOKS_LIB = [
@@ -217,7 +217,6 @@
             )
         );
 
-        // --- MOBILE NAV COMPONENTS ---
         const MobileTopBar = ({ handleLogout, user }) => (
             React.createElement("header", { className: "md:hidden fixed top-0 left-0 right-0 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800 z-50 px-4 h-14 flex items-center justify-between" },
                 React.createElement("div", { className: "flex items-center gap-3" },
@@ -329,7 +328,7 @@
             return inline ? content : React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" }, content);
         };
 
-        // --- LANDING PAGE (Restored) ---
+        // --- LANDING PAGE ---
         const LandingPage = ({ onLoginSuccess, onGuestLogin }) => {
             return React.createElement("div", { className: "min-h-screen flex flex-col md:flex-row bg-zinc-950 text-white font-sans overflow-hidden" },
                 React.createElement("div", { className: "fixed inset-0 z-0 pointer-events-none" },
@@ -364,7 +363,7 @@
             );
         };
 
-        // --- DASHBOARD VIEW (Restored) ---
+        // --- DASHBOARD VIEW ---
         const DashboardView = ({ onNavigate, tasks = [], deadlines = [], dashboardData = {}, onUpdateDashboard, timerState, toggleTimer, resetTimer }) => {
             const dailyFocus = dashboardData?.focus || "";
             const positiveNote = dashboardData?.positiveNote || "";
@@ -400,7 +399,6 @@
                         })
                     )
                 ),
-                // Positive Note Card
                 React.createElement(Card, { title: "Positive Note to Myself", className: "bg-gradient-to-r from-emerald-900/10 to-teal-900/10 border-emerald-500/20" },
                      React.createElement("textarea", { 
                         value: positiveNote, 
@@ -409,7 +407,6 @@
                         placeholder: "Write something kind to yourself..."
                     })
                 ),
-                // Grid
                 React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" },
                      React.createElement(Card, { title: "Active Tasks" },
                         React.createElement("div", { className: "flex items-center justify-between" },
@@ -441,7 +438,7 @@
             );
         };
 
-        // --- TASKS VIEW (Restored) ---
+        // --- TASKS VIEW ---
         const TasksView = ({ tasks, onAddTask, onDeleteTask, onUpdateTask }) => {
             const TaskBox = ({ title, category, colorClass, icon: Icon }) => {
                 const [input, setInput] = useState("");
@@ -500,7 +497,7 @@
             );
         };
 
-        // --- FOOD VIEW (Restored Weekly) ---
+        // --- FOOD VIEW ---
         const FoodView = ({ meals, onUpdateMeal }) => {
              const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
              const mealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
@@ -537,7 +534,7 @@
              );
         };
 
-        // --- FITNESS VIEW (Restored Editable) ---
+        // --- FITNESS VIEW ---
         const FitnessView = () => {
              const [planType, setPlanType] = useState('gym');
              const currentPlan = planType === 'gym' ? GYM_WORKOUT_PLAN : HOME_WORKOUT_PLAN;
@@ -563,7 +560,7 @@
              );
         };
 
-        // --- BRAIN DUMP VIEW (Restored) ---
+        // --- BRAIN DUMP VIEW ---
         const BrainDumpView = ({ dumps, onAddDump, onDeleteDump }) => {
             const [input, setInput] = useState("");
             return React.createElement("div", { className: "p-4" },
@@ -581,7 +578,7 @@
             );
         };
         
-        // --- DEADLINES VIEW (Restored) ---
+        // --- DEADLINES VIEW ---
         const DeadlinesView = ({ deadlines = [], onAddDeadline, onDeleteDeadline }) => {
             const [newTitle, setNewTitle] = useState("");
             const [newDate, setNewDate] = useState("");
@@ -606,7 +603,7 @@
             );
         };
 
-        // --- GOALS VIEW (Restored) ---
+        // --- GOALS VIEW ---
         const Goals2026View = ({ goalsData, onUpdateGoals }) => {
             const updateSection = (path, newData) => {
                 const newGoals = { ...goalsData };
@@ -646,25 +643,47 @@
             );
         };
 
-        // --- FOCUS VIEW (Restored) ---
+        // --- FOCUS VIEW (Modernized) ---
         const FocusView = ({ timerState, toggleTimer, resetTimer, activeSound, isPlayingSound, toggleSound }) => {
             const format = (s) => `${Math.floor(s / 60).toString().padStart(2,'0')}:${(s % 60).toString().padStart(2,'0')}`;
-            return React.createElement("div", { className: "p-4 flex flex-col items-center justify-center h-full" },
-                React.createElement("div", { className: "text-8xl font-bold font-mono text-white mb-8" }, format(timerState.timeLeft)),
-                React.createElement("div", { className: "flex gap-4 mb-12" },
-                    React.createElement("button", { onClick: toggleTimer, className: "px-8 py-3 bg-indigo-600 rounded-full text-white font-bold text-lg" }, timerState.isActive ? "Pause" : "Start"),
-                    React.createElement("button", { onClick: () => resetTimer(), className: "px-8 py-3 bg-zinc-800 rounded-full text-zinc-400 font-bold text-lg" }, "Reset")
-                ),
-                React.createElement("div", { className: "grid grid-cols-4 gap-4" },
-                    FOCUS_SOUNDS.map(s => React.createElement("button", { key: s.id, onClick: () => toggleSound(s), className: `p-4 rounded-xl flex flex-col items-center gap-2 border ${activeSound === s.id && isPlayingSound ? 'bg-indigo-900/50 border-indigo-500' : 'bg-zinc-900/50 border-zinc-800'}` }, 
-                        React.createElement(s.icon, { size: 24, className: activeSound === s.id && isPlayingSound ? 'text-indigo-400' : 'text-zinc-500' }),
-                        React.createElement("span", { className: "text-xs font-bold uppercase" }, s.label)
-                    ))
+            const progress = ((timerState.initialTime - timerState.timeLeft) / timerState.initialTime) * 100;
+            const radius = 140; 
+            const circumference = 2 * Math.PI * radius;
+            const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+            return React.createElement("div", { className: "h-full flex flex-col items-center justify-center relative overflow-hidden" },
+                React.createElement("div", { className: `absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] transition-all duration-1000 ${timerState.isActive ? 'scale-110 opacity-100' : 'scale-90 opacity-40'}` }),
+                React.createElement("div", { className: "relative z-10 flex flex-col items-center w-full max-w-2xl" },
+                    React.createElement("div", { className: "flex gap-1 mb-10 bg-black/40 p-1.5 rounded-full border border-white/5 backdrop-blur-md shadow-xl" },
+                        [{ m: 25, l: "Focus" }, { m: 5, l: "Short Break" }, { m: 15, l: "Long Break" }, { m: 60, l: "Deep Work" }].map(p => 
+                            React.createElement("button", { key: p.m, onClick: () => resetTimer(p.m * 60), className: `px-5 py-2 rounded-full text-xs font-bold transition-all duration-300 ${timerState.initialTime === p.m * 60 ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]' : 'text-zinc-400 hover:text-white hover:bg-white/10'}` }, p.l)
+                        )
+                    ),
+                    React.createElement("div", { className: "relative mb-12 group" },
+                        React.createElement("svg", { className: "w-[340px] h-[340px] transform -rotate-90 drop-shadow-2xl" },
+                            React.createElement("circle", { cx: "170", cy: "170", r: radius, stroke: "#18181b", strokeWidth: "3", fill: "transparent" }),
+                            React.createElement("circle", { cx: "170", cy: "170", r: radius, stroke: "currentColor", strokeWidth: "3", fill: "transparent", strokeDasharray: circumference, strokeDashoffset: strokeDashoffset, className: `transition-all duration-1000 ease-linear ${timerState.isActive ? 'text-indigo-500 shadow-[0_0_20px_currentColor]' : 'text-zinc-600'}`, strokeLinecap: "round" })
+                        ),
+                        React.createElement("div", { className: "absolute inset-0 flex flex-col items-center justify-center" },
+                            React.createElement("div", { className: "text-7xl md:text-8xl font-mono font-bold tracking-tighter text-white tabular-nums drop-shadow-lg" }, format(timerState.timeLeft)),
+                            React.createElement("div", { className: `mt-6 flex gap-4 transition-all duration-300 ${timerState.isActive ? 'opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0' : 'opacity-100'}` },
+                                React.createElement("button", { onClick: toggleTimer, className: "w-14 h-14 rounded-full flex items-center justify-center bg-white text-black hover:scale-110 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.2)]" }, timerState.isActive ? React.createElement(Pause, { size: 24, fill: "currentColor" }) : React.createElement(Play, { size: 24, fill: "currentColor", className: "ml-1" })),
+                                React.createElement("button", { onClick: () => resetTimer(), className: "w-14 h-14 rounded-full flex items-center justify-center bg-zinc-900 text-zinc-400 border border-zinc-800 hover:border-zinc-600 hover:text-white transition-all hover:scale-105" }, React.createElement(RotateCcw, { size: 20 }))
+                            )
+                        )
+                    ),
+                    React.createElement("div", { className: "bg-black/30 backdrop-blur-xl border border-white/5 rounded-2xl p-2 px-6 flex items-center gap-8 shadow-2xl" },
+                        React.createElement("div", { className: "text-[10px] font-bold text-zinc-600 uppercase tracking-widest mr-2" }, "Soundscape"),
+                        FOCUS_SOUNDS.map(s => {
+                             const isActive = activeSound === s.id && isPlayingSound;
+                             return React.createElement("button", { key: s.id, onClick: () => toggleSound(s), className: `flex items-center gap-3 py-2 px-3 rounded-lg transition-all ${isActive ? 'text-indigo-400 bg-indigo-500/10' : 'text-zinc-500 hover:text-zinc-300'}` }, React.createElement(s.icon, { size: 20, className: isActive ? "animate-pulse" : "" }), React.createElement("span", { className: "text-xs font-bold" }, s.label), isActive && React.createElement("div", { className: "w-1.5 h-1.5 rounded-full bg-indigo-500 ml-1 shadow-[0_0_5px_currentColor]" }));
+                        })
+                    )
                 )
             );
         };
 
-        // --- SPIRITUALITY VIEW (Restored) ---
+        // --- SPIRITUALITY VIEW ---
         const SpiritualityView = ({ notes, onAddNote, onDeleteNote }) => {
             const [activeSubTab, setActiveSubTab] = useState("books");
             const [input, setInput] = useState("");
@@ -695,17 +714,43 @@
             );
         };
 
-        // 1. WISHLIST VIEW
-        const WishlistView = ({ wishlist, onAddItem, onDeleteItem, onUpdateItem }) => {
-            const [newItem, setNewItem] = useState({ name: "", price: "", link: "", priority: "Medium" });
+        // 1. WISHLIST VIEW (Updated Design)
+        const WishlistView = ({ wishlist, onAddItem, onDeleteItem }) => {
+            const [newItem, setNewItem] = useState({ name: "", price: "", priority: "Medium" });
             const [showAdd, setShowAdd] = useState(false);
-            const priorityColors = { High: "text-rose-400 bg-rose-400/10", Medium: "text-yellow-400 bg-yellow-400/10", Low: "text-emerald-400 bg-emerald-400/10" };
-            const handleAdd = () => { if(newItem.name) { onAddItem(newItem); setNewItem({ name: "", price: "", link: "", priority: "Medium" }); setShowAdd(false); } };
+            const priorityColors = { High: "text-rose-400 bg-rose-400/10 border-rose-400/20", Medium: "text-yellow-400 bg-yellow-400/10 border-yellow-400/20", Low: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20" };
+            const handleAdd = () => { if(newItem.name) { onAddItem(newItem); setNewItem({ name: "", price: "", priority: "Medium" }); setShowAdd(false); } };
             const totalValue = wishlist.reduce((acc, item) => acc + (parseFloat(item.price) || 0), 0);
+            
             return React.createElement("div", { className: "p-4 pb-24 h-full flex flex-col" },
-                React.createElement("div", { className: "flex justify-between items-center mb-6" }, React.createElement("div", null, React.createElement("h2", { className: "text-3xl font-bold text-white" }, "Wishlist"), React.createElement("p", { className: "text-zinc-400 text-sm" }, `Total Value: $${totalValue.toLocaleString()}`)), React.createElement("button", { onClick: () => setShowAdd(!showAdd), className: "p-2 bg-indigo-600 rounded-lg text-white" }, React.createElement(Plus, { size: 20 }))),
-                showAdd && React.createElement(Card, { className: "mb-6" }, React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4" }, React.createElement("input", { value: newItem.name, onChange: e => setNewItem({...newItem, name: e.target.value}), placeholder: "Item Name", className: "p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:outline-none" }), React.createElement("input", { value: newItem.price, type: "number", onChange: e => setNewItem({...newItem, price: e.target.value}), placeholder: "Price", className: "p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:outline-none" }), React.createElement("input", { value: newItem.link, onChange: e => setNewItem({...newItem, link: e.target.value}), placeholder: "Link", className: "p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:outline-none" }), React.createElement("select", { value: newItem.priority, onChange: e => setNewItem({...newItem, priority: e.target.value}), className: "p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:outline-none" }, ['High', 'Medium', 'Low'].map(p => React.createElement("option", { key: p, value: p }, p)))), React.createElement("button", { onClick: handleAdd, className: "mt-4 w-full py-2 bg-indigo-600 text-white rounded-lg font-bold" }, "Add Item")),
-                React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto" }, wishlist.length === 0 ? React.createElement("div", { className: "col-span-full text-center text-zinc-600 py-10" }, "No wishes yet.") : wishlist.map(item => React.createElement("div", { key: item.id, className: "group relative bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 hover:border-zinc-600 transition-all" }, React.createElement("div", { className: "flex justify-between items-start mb-2" }, React.createElement("span", { className: `text-[10px] font-bold uppercase px-2 py-1 rounded-md ${priorityColors[item.priority]}` }, item.priority), React.createElement("button", { onClick: () => onDeleteItem(item.id), className: "text-zinc-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity" }, React.createElement(Trash2, { size: 16 }))), React.createElement("h3", { className: "font-bold text-lg text-white mb-1" }, item.name), React.createElement("div", { className: "flex items-center gap-4 text-sm text-zinc-400" }, React.createElement("span", { className: "font-mono text-emerald-400" }, `$${item.price}`), item.link && React.createElement("a", { href: item.link, target: "_blank", className: "flex items-center gap-1 hover:text-indigo-400" }, React.createElement(LinkIcon, { size: 12 }), "Link")))))
+                React.createElement("div", { className: "flex justify-between items-center mb-6" }, 
+                    React.createElement("div", null, 
+                        React.createElement("h2", { className: "text-3xl font-bold text-white" }, "Wishlist"), 
+                        React.createElement("p", { className: "text-zinc-400 text-sm" }, `Total Value: $${totalValue.toLocaleString()}`)
+                    ), 
+                    React.createElement("button", { onClick: () => setShowAdd(!showAdd), className: "p-2 bg-indigo-600 rounded-lg text-white hover:bg-indigo-500 transition-colors" }, React.createElement(Plus, { size: 20 }))
+                ),
+                showAdd && React.createElement(Card, { className: "mb-6 animate-in fade-in slide-in-from-top-4" }, 
+                    React.createElement("div", { className: "grid grid-cols-1 gap-4" }, 
+                        React.createElement("input", { value: newItem.name, onChange: e => setNewItem({...newItem, name: e.target.value}), placeholder: "Item Name", className: "p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:outline-none focus:border-indigo-500" }), 
+                        React.createElement("div", { className: "flex gap-4" },
+                            React.createElement("input", { value: newItem.price, type: "number", onChange: e => setNewItem({...newItem, price: e.target.value}), placeholder: "Price", className: "flex-1 p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:outline-none focus:border-indigo-500" }), 
+                            React.createElement("select", { value: newItem.priority, onChange: e => setNewItem({...newItem, priority: e.target.value}), className: "flex-1 p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:outline-none focus:border-indigo-500" }, ['High', 'Medium', 'Low'].map(p => React.createElement("option", { key: p, value: p }, p)))
+                        )
+                    ), 
+                    React.createElement("button", { onClick: handleAdd, className: "mt-4 w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-500 transition-colors" }, "Add Item")
+                ),
+                React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto" }, 
+                    wishlist.length === 0 ? React.createElement("div", { className: "col-span-full text-center text-zinc-600 py-10" }, "No wishes yet.") : 
+                    wishlist.map(item => React.createElement("div", { key: item.id, className: "group relative bg-zinc-900/40 border border-zinc-800 rounded-xl p-5 hover:border-indigo-500/30 transition-all hover:bg-zinc-900" }, 
+                        React.createElement("div", { className: "flex justify-between items-start mb-3" }, 
+                            React.createElement("span", { className: `text-[10px] font-bold uppercase px-2 py-1 rounded-md border ${priorityColors[item.priority]}` }, item.priority), 
+                            React.createElement("button", { onClick: () => onDeleteItem(item.id), className: "text-zinc-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1" }, React.createElement(Trash2, { size: 16 }))
+                        ), 
+                        React.createElement("h3", { className: "font-bold text-xl text-white mb-1" }, item.name), 
+                        React.createElement("div", { className: "text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 mt-2" }, `$${item.price}`)
+                    ))
+                )
             );
         };
 
@@ -724,22 +769,69 @@
             );
         };
 
-        // 3. UPDATED TOOLS VIEW
+        // 3. UPDATED TOOLS VIEW (Improved Structure)
         const ToolsView = ({ tools, categories, onAddTool, onAddCategory }) => {
             const [selectedCategory, setSelectedCategory] = useState("All");
             const [showAddModal, setShowAddModal] = useState(false);
             const [newTool, setNewTool] = useState({ name: "", url: "", category: "General", icon: "Link" });
             const [isCustomCategory, setIsCustomCategory] = useState(false);
             const [customCategoryName, setCustomCategoryName] = useState("");
-            const filteredTools = selectedCategory === "All" ? tools : tools.filter(t => t.category === selectedCategory);
+            
             const handleAdd = () => { if(newTool.name && newTool.url) { const finalCategory = isCustomCategory ? customCategoryName : newTool.category; if (isCustomCategory && customCategoryName) onAddCategory(customCategoryName); onAddTool({ ...newTool, category: finalCategory }); setShowAddModal(false); setNewTool({ name: "", url: "", category: "General", icon: "Link" }); setCustomCategoryName(""); setIsCustomCategory(false); } };
 
+            // Group tools by category for "All" view
+            const renderTools = () => {
+                if (selectedCategory !== "All") {
+                    const filtered = tools.filter(t => t.category === selectedCategory);
+                    return React.createElement("div", { className: "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4" },
+                        filtered.map(tool => {
+                            const IconComp = ICON_LIB[tool.icon] || Globe;
+                            return React.createElement("a", { key: tool.id, href: tool.url, target: "_blank", className: "group flex flex-col items-center p-5 bg-zinc-900/40 border border-zinc-800/50 rounded-2xl hover:bg-zinc-800 hover:border-zinc-700 transition-all hover:scale-105" },
+                                React.createElement("div", { className: "w-14 h-14 rounded-2xl bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-zinc-400 group-hover:text-white shadow-lg mb-3" }, React.createElement(IconComp, { size: 28 })),
+                                React.createElement("span", { className: "text-sm font-medium text-zinc-300 group-hover:text-white text-center line-clamp-1" }, tool.name)
+                            );
+                        })
+                    );
+                } else {
+                    // Group by categories
+                    return React.createElement("div", { className: "space-y-10" },
+                        categories.map(cat => {
+                            const catTools = tools.filter(t => t.category === cat);
+                            if (catTools.length === 0) return null;
+                            return React.createElement("div", { key: cat, className: "space-y-4" },
+                                React.createElement("h3", { className: "text-lg font-bold text-zinc-400 border-b border-zinc-800 pb-2 flex items-center gap-2" }, 
+                                    React.createElement("span", { className: "w-2 h-2 rounded-full bg-indigo-500" }), cat
+                                ),
+                                React.createElement("div", { className: "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4" },
+                                    catTools.map(tool => {
+                                        const IconComp = ICON_LIB[tool.icon] || Globe;
+                                        return React.createElement("a", { key: tool.id, href: tool.url, target: "_blank", className: "group flex flex-col items-center p-5 bg-zinc-900/40 border border-zinc-800/50 rounded-2xl hover:bg-zinc-800 hover:border-zinc-700 transition-all hover:scale-105" },
+                                            React.createElement("div", { className: "w-14 h-14 rounded-2xl bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-zinc-400 group-hover:text-white shadow-lg mb-3" }, React.createElement(IconComp, { size: 28 })),
+                                            React.createElement("span", { className: "text-sm font-medium text-zinc-300 group-hover:text-white text-center line-clamp-1" }, tool.name)
+                                        );
+                                    })
+                                )
+                            );
+                        })
+                    );
+                }
+            };
+
             return React.createElement("div", { className: "flex h-full pb-20" },
-                React.createElement("div", { className: "w-48 hidden md:flex flex-col border-r border-zinc-800 p-4 space-y-1 bg-zinc-950/50" }, React.createElement("h3", { className: "text-xs font-bold text-zinc-500 uppercase tracking-wider mb-4 px-2" }, "Categories"), React.createElement("button", { onClick: () => setSelectedCategory("All"), className: `w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === "All" ? 'bg-indigo-600/10 text-indigo-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-900'}` }, "All Tools"), categories.map(cat => React.createElement("button", { key: cat, onClick: () => setSelectedCategory(cat), className: `w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === cat ? 'bg-indigo-600/10 text-indigo-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-900'}` }, cat))),
-                React.createElement("div", { className: "flex-1 p-4 md:p-8 overflow-y-auto" },
-                    React.createElement("div", { className: "md:hidden flex overflow-x-auto gap-2 mb-6 no-scrollbar pb-2" }, React.createElement("button", { onClick: () => setSelectedCategory("All"), className: `px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border ${selectedCategory === "All" ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800'}` }, "All"), categories.map(cat => React.createElement("button", { key: cat, onClick: () => setSelectedCategory(cat), className: `px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border ${selectedCategory === cat ? 'bg-white text-black border-white' : 'bg-zinc-900 text-zinc-400 border-zinc-800'}` }, cat))),
-                    React.createElement("div", { className: "flex justify-between items-center mb-8" }, React.createElement("h2", { className: "text-3xl font-bold text-white" }, selectedCategory === "All" ? "All Tools" : selectedCategory), React.createElement("button", { onClick: () => setShowAddModal(true), className: "flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-bold transition-colors" }, React.createElement(Plus, { size: 18 }), "Add Tool")),
-                    React.createElement("div", { className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" }, filteredTools.map(tool => { const IconComp = ICON_LIB[tool.icon] || Globe; return React.createElement("a", { key: tool.id, href: tool.url, target: "_blank", className: "group flex flex-col items-center justify-center p-6 bg-zinc-900/30 border border-zinc-800/50 rounded-2xl hover:bg-zinc-900 hover:border-indigo-500/50 hover:shadow-glow-sm transition-all" }, React.createElement("div", { className: "w-12 h-12 rounded-xl bg-black flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:scale-110 transition-all mb-3 shadow-inner" }, React.createElement(IconComp, { size: 24 })), React.createElement("span", { className: "text-sm font-medium text-zinc-300 group-hover:text-white text-center" }, tool.name), React.createElement("span", { className: "text-[10px] text-zinc-600 uppercase tracking-wider mt-1" }, tool.category)); }))
+                React.createElement("div", { className: "w-56 hidden md:flex flex-col border-r border-zinc-800 p-6 space-y-1 bg-zinc-950" }, 
+                    React.createElement("h3", { className: "text-xs font-bold text-zinc-500 uppercase tracking-wider mb-6 px-2" }, "Library"), 
+                    React.createElement("button", { onClick: () => setSelectedCategory("All"), className: `w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${selectedCategory === "All" ? 'bg-indigo-600 text-white shadow-glow-sm' : 'text-zinc-400 hover:text-white hover:bg-zinc-900'}` }, "All Apps"), 
+                    categories.map(cat => React.createElement("button", { key: cat, onClick: () => setSelectedCategory(cat), className: `w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${selectedCategory === cat ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-900'}` }, cat))
+                ),
+                React.createElement("div", { className: "flex-1 p-6 md:p-10 overflow-y-auto" },
+                    React.createElement("div", { className: "flex justify-between items-center mb-8" }, 
+                        React.createElement("div", null,
+                            React.createElement("h2", { className: "text-3xl font-bold text-white" }, "Tools"),
+                            React.createElement("p", { className: "text-zinc-400 text-sm mt-1" }, "Your digital workspace.")
+                        ),
+                        React.createElement("button", { onClick: () => setShowAddModal(true), className: "flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition-all shadow-glow-sm hover:scale-105" }, React.createElement(Plus, { size: 18 }), "Add Tool")
+                    ),
+                    renderTools()
                 ),
                 showAddModal && React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" }, React.createElement("div", { className: "bg-zinc-900 border border-zinc-800 rounded-2xl w-full max-w-lg p-6 relative" }, React.createElement("button", { onClick: () => setShowAddModal(false), className: "absolute top-4 right-4 text-zinc-500 hover:text-white" }, React.createElement(X, { size: 20 })), React.createElement("h3", { className: "text-xl font-bold text-white mb-6" }, "Add New Tool"), React.createElement("div", { className: "space-y-4" }, React.createElement("input", { value: newTool.name, onChange: e => setNewTool({...newTool, name: e.target.value}), placeholder: "Tool Name", className: "w-full p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:border-indigo-500 outline-none" }), React.createElement("input", { value: newTool.url, onChange: e => setNewTool({...newTool, url: e.target.value}), placeholder: "URL (https://...)", className: "w-full p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:border-indigo-500 outline-none" }), React.createElement("div", null, React.createElement("label", { className: "text-xs text-zinc-500 mb-1 block" }, "Category"), isCustomCategory ? React.createElement("div", { className: "flex gap-2" }, React.createElement("input", { value: customCategoryName, onChange: e => setCustomCategoryName(e.target.value), placeholder: "New Category Name", className: "flex-1 p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:border-indigo-500 outline-none" }), React.createElement("button", { onClick: () => setIsCustomCategory(false), className: "p-3 bg-zinc-800 text-zinc-400 rounded-xl hover:text-white" }, React.createElement(X, { size: 18 }))) : React.createElement("select", { value: newTool.category, onChange: e => { if(e.target.value === 'NEW') setIsCustomCategory(true); else setNewTool({...newTool, category: e.target.value}); }, className: "w-full p-3 bg-black/50 border border-zinc-700 rounded-xl text-white focus:border-indigo-500 outline-none" }, categories.map(c => React.createElement("option", { key: c, value: c }, c)), React.createElement("option", { value: "NEW", className: "text-indigo-400 font-bold" }, "+ Create New Category"))), React.createElement("div", null, React.createElement("label", { className: "text-xs text-zinc-500 mb-2 block" }, "Select Icon"), React.createElement("div", { className: "grid grid-cols-6 gap-2 max-h-32 overflow-y-auto p-2 bg-black/30 rounded-xl border border-zinc-800/50" }, Object.keys(ICON_LIB).map(iconName => { const I = ICON_LIB[iconName]; return React.createElement("button", { key: iconName, onClick: () => setNewTool({...newTool, icon: iconName}), className: `p-2 rounded-lg flex items-center justify-center transition-all ${newTool.icon === iconName ? 'bg-indigo-600 text-white' : 'text-zinc-500 hover:bg-zinc-800'}` }, React.createElement(I, { size: 18 })); }))), React.createElement("button", { onClick: handleAdd, className: "w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl mt-4" }, "Add Tool"))))
             );
@@ -800,9 +892,28 @@
             const handleTimerToggle = () => setFocusState(prev => ({ ...prev, isActive: !prev.isActive }));
             const handleTimerReset = (newTime, newMode) => { const time = newTime || focusState.initialTime; setFocusState({ timeLeft: time, isActive: false, initialTime: time, mode: newMode || 'FOCUS' }); };
 
-            const toggleSound = (sound) => {
-                if (activeSound === sound.id && isPlayingSound) { audioRef.current.pause(); setIsPlayingSound(false); }
-                else { audioRef.current.src = sound.url; audioRef.current.loop = true; audioRef.current.play(); setIsPlayingSound(true); setActiveSound(sound.id); }
+            const toggleSound = async (sound) => {
+                try {
+                    if (activeSound === sound.id && isPlayingSound) { 
+                        audioRef.current.pause(); 
+                        setIsPlayingSound(false); 
+                    } else { 
+                        // Stop current sound if playing
+                        if (isPlayingSound) {
+                            audioRef.current.pause();
+                        }
+                        
+                        audioRef.current.src = sound.url; 
+                        audioRef.current.loop = true; 
+                        await audioRef.current.play(); 
+                        setIsPlayingSound(true); 
+                        setActiveSound(sound.id); 
+                    }
+                } catch (err) {
+                    console.error("Audio playback error:", err);
+                    setIsPlayingSound(false);
+                    // Fallback or silent failure to prevent app crash
+                }
             };
 
             // DB Connectivity Check

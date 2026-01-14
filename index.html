@@ -1277,11 +1277,19 @@ create policy "Users can delete own deadlines" on deadlines for delete using (au
         };
 
         // --- DAILY PLAN VIEW ---
-        const DailyPlanView = ({ plan, onUpdate }) => {
+        const DailyPlanView = ({ plan = {}, onUpdate }) => {
             // Ensure plan object is valid to prevent crashes if DB returns partial data
-            const schedule = plan?.schedule || {};
-            const priorities = plan?.priorities || ['', '', ''];
-            const note = plan?.notes || '';
+            const schedule = plan.schedule || {};
+            
+            // Robustly handle priorities to ensure exactly 3 slots always exist
+            const rawPriorities = Array.isArray(plan.priorities) ? plan.priorities : [];
+            const priorities = [
+                rawPriorities[0] || '',
+                rawPriorities[1] || '',
+                rawPriorities[2] || ''
+            ];
+            
+            const note = plan.notes || '';
             
             // Time slots generation (6 AM to 11 PM)
             const hours = Array.from({length: 18}, (_, i) => i + 6);
@@ -1293,7 +1301,8 @@ create policy "Users can delete own deadlines" on deadlines for delete using (au
             const handlePriorityChange = (idx, val) => {
                 const newP = [...priorities];
                 newP[idx] = val;
-                onUpdate({ ...plan, priorities: newP });
+                // Ensure we preserve other fields when updating
+                onUpdate({ ...plan, priorities: newP, schedule, notes: note });
             };
 
             const clearPlan = () => {

@@ -1303,7 +1303,7 @@
                         
                         // Check last reset date
                         const { data: metaData } = await supabase.from('app_data').select('tasks_last_reset').eq('user_id', user.id).single();
-                        const today = new Date().toLocaleDateString();
+                        const today = getTodayString(); // Fixed: Use consistent YYYY-MM-DD format
                         
                         if (tData && tData.length > 0 && (!metaData || metaData.tasks_last_reset !== today)) {
                              // Reset tasks in DB
@@ -1356,7 +1356,7 @@
                         // Daily Reset Local
                         const savedTasks = JSON.parse(localStorage.getItem(`${prefix}tasks`) || '[]');
                         const lastTaskDate = localStorage.getItem(`${prefix}tasks_date`);
-                        const today = new Date().toLocaleDateString();
+                        const today = getTodayString(); // Fixed: Use consistent YYYY-MM-DD format
 
                         if (lastTaskDate !== today) {
                             setTasks([]); 

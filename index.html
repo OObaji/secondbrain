@@ -130,26 +130,7 @@
                  return v.toString(16);
              });
         };
-
-        // --- LOCAL AUTH SIMULATION (Fallback) ---
-        const LocalAuth = {
-            login: (email, password) => {
-                const users = JSON.parse(localStorage.getItem('lifeos_local_db_users') || '{}');
-                const user = users[email.toLowerCase()];
-                if (!user) throw new Error("User not found locally. Please create an account.");
-                if (user.password !== password) throw new Error("Incorrect password.");
-                return { email: user.email, id: user.uid, isLocal: true, displayName: user.displayName || user.email.split('@')[0] };
-            },
-            signup: (email, password) => {
-                const users = JSON.parse(localStorage.getItem('lifeos_local_db_users') || '{}');
-                if (users[email.toLowerCase()]) throw new Error("Account already exists. Please sign in.");
-                const uid = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                const displayName = email.split('@')[0];
-                users[email.toLowerCase()] = { email, password, uid, displayName };
-                localStorage.setItem('lifeos_local_db_users', JSON.stringify(users));
-                return { email, id: uid, isLocal: true, displayName };
-            }
-        };
+        const getTodayString = () => new Date().toISOString().split('T')[0];
 
         // --- ICONS LIBRARY ---
         const ICON_LIB = {
@@ -1215,6 +1196,8 @@
             }, [darkMode]);
 
             const [user, setUser] = useState(null);
+            const [apiKey, setApiKey] = useState(() => localStorage.getItem('lifeos_gemini_api_key') || "");
+            const [showSettings, setShowSettings] = useState(false);
             
             // App Data
             const [deadlines, setDeadlines] = useState([]);
@@ -1259,7 +1242,6 @@
                         audioRef.current.pause(); 
                         setIsPlayingSound(false); 
                     } else { 
-                        // Stop current sound if playing
                         if (isPlayingSound) {
                             audioRef.current.pause();
                         }
@@ -1273,7 +1255,6 @@
                 } catch (err) {
                     console.error("Audio playback error:", err);
                     setIsPlayingSound(false);
-                    // Fallback or silent failure to prevent app crash
                 }
             };
 
@@ -1438,10 +1419,7 @@
             const handleAddTask = async (item) => {
                 const newItem = { ...item, id: generateUUID(), user_id: user.id };
                 setTasks(prev => [...prev, newItem]);
-                if (!user.isLocal && isSupabaseConfigured) {
-                    const { error } = await supabase.from('tasks').insert(newItem);
-                    if (error) console.error("Error saving task:", error);
-                }
+                if (!user.isLocal && isSupabaseConfigured) await supabase.from('tasks').insert(newItem);
             };
             const handleDeleteTask = async (id) => {
                 setTasks(prev => prev.filter(t => t.id !== id));

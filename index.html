@@ -98,7 +98,7 @@
             List, Grid, Columns, Utensils, FileText, Trash, ShieldAlert, Flame, Volume2, ChevronLeft,
             ListTodo, ArrowUpRight, CheckSquare, Flower2, Dumbbell, Github, Bot, Newspaper, QrCode,
             Waves, Wind, Mountain, Footprints, Ban, ShieldCheck, Milestone, User, LogIn, ArrowLeft, Info,
-            Eye, EyeOff, Hourglass, AlertTriangle, Check, Cpu, Scroll, Gift, ShoppingBag, Code2, Terminal, Library, Globe, Laptop, Smartphone, Wand2
+            Eye, EyeOff, Hourglass, AlertTriangle, Check, Cpu, Scroll, Gift, ShoppingBag, Code2, Terminal, Library, Globe, Laptop, Smartphone
         } from "https://esm.sh/lucide-react@0.344.0?deps=react@18.2.0";
 
         // --- SUPABASE IMPORT ---
@@ -120,17 +120,35 @@
             }
         }
 
-        // --- AI SERVICE ---
-        const callGemini = async (apiKey, prompt) => {
-            if (!apiKey) throw new Error("API Key missing. Go to Settings to add your Gemini API Key.");
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-            const data = await response.json();
-            if (data.error) throw new Error(data.error.message);
-            return data.candidates[0].content.parts[0].text;
+        // --- UTILS ---
+        const generateUUID = () => {
+             if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+                 return crypto.randomUUID();
+             }
+             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                 return v.toString(16);
+             });
+        };
+
+        // --- LOCAL AUTH SIMULATION (Fallback) ---
+        const LocalAuth = {
+            login: (email, password) => {
+                const users = JSON.parse(localStorage.getItem('lifeos_local_db_users') || '{}');
+                const user = users[email.toLowerCase()];
+                if (!user) throw new Error("User not found locally. Please create an account.");
+                if (user.password !== password) throw new Error("Incorrect password.");
+                return { email: user.email, id: user.uid, isLocal: true, displayName: user.displayName || user.email.split('@')[0] };
+            },
+            signup: (email, password) => {
+                const users = JSON.parse(localStorage.getItem('lifeos_local_db_users') || '{}');
+                if (users[email.toLowerCase()]) throw new Error("Account already exists. Please sign in.");
+                const uid = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                const displayName = email.split('@')[0];
+                users[email.toLowerCase()] = { email, password, uid, displayName };
+                localStorage.setItem('lifeos_local_db_users', JSON.stringify(users));
+                return { email, id: uid, isLocal: true, displayName };
+            }
         };
 
         // --- ICONS LIBRARY ---
@@ -417,30 +435,40 @@
                 ),
 
                 React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" },
+                     
+                     // Task Counter
                      React.createElement(Card, { title: "Active Tasks", action: React.createElement("button", { onClick: () => onNavigate('tasks'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(ArrowRight, { size: 16 })) },
                         React.createElement("div", { className: "flex items-center justify-between" },
                              React.createElement("span", { className: "text-4xl font-bold text-zinc-900 dark:text-white" }, tasks.length),
                              React.createElement(ListTodo, { className: "text-zinc-200 dark:text-zinc-700", size: 48 })
                         )
                      ),
+
+                     // Currently Reading
                      React.createElement(Card, { title: "Now Reading", action: React.createElement("button", { onClick: () => onNavigate('library'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(Book, { size: 16 })) },
                         currentBook ? React.createElement("div", null,
                             React.createElement("h4", { className: "font-bold text-zinc-900 dark:text-white truncate leading-tight" }, currentBook.title),
                             React.createElement("p", { className: "text-xs text-zinc-500 mt-1" }, currentBook.author)
                         ) : React.createElement("div", { className: "text-zinc-400 text-sm italic" }, "No book active.")
                      ),
+
+                     // Nutrition Snapshot
                      React.createElement(Card, { title: "Today's Fuel", action: React.createElement("button", { onClick: () => onNavigate('food'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(Utensils, { size: 16 })) },
                         React.createElement("div", { className: "flex flex-col gap-1" },
                             React.createElement("span", { className: "text-[10px] uppercase font-bold text-zinc-500" }, "Breakfast"),
                             React.createElement("p", { className: "text-sm text-zinc-700 dark:text-zinc-300 line-clamp-2 leading-snug" }, todaysBreakfast)
                         )
                      ),
+
+                     // Next Deadline
                      React.createElement(Card, { title: "Next Deadline", action: React.createElement("button", { onClick: () => onNavigate('deadlines'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(Hourglass, { size: 16 })) },
                         deadlines[0] ? React.createElement("div", null, 
                             React.createElement("p", { className: "font-bold text-zinc-900 dark:text-white truncate" }, deadlines[0].title),
                             React.createElement("p", { className: "text-sm text-zinc-500 mt-1" }, new Date(deadlines[0].date).toLocaleDateString())
                         ) : React.createElement("p", { className: "text-zinc-400" }, "All clear.")
                      ),
+
+                     // Fitness Snapshot
                      React.createElement(Card, { title: "Daily Movement", className: "lg:col-span-2", action: React.createElement("button", { onClick: () => onNavigate('fitness'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(Dumbbell, { size: 16 })) },
                         todaysWorkout ? React.createElement("div", { className: "flex items-center gap-4" },
                             React.createElement("div", { className: "p-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-indigo-500 dark:text-indigo-400" }, React.createElement(Activity, { size: 24 })),
@@ -450,6 +478,8 @@
                             )
                         ) : React.createElement("p", { className: "text-zinc-400" }, "Rest Day / No Plan")
                      ),
+
+                     // Daily Rules (PSWTR)
                      React.createElement(Card, { title: "Daily Rules (PSWTR)", className: "lg:col-span-2" },
                         React.createElement("div", { className: "grid grid-cols-5 gap-2" },
                             pswtrData.map(item => 
@@ -518,7 +548,6 @@
                         React.createElement("p", { className: "text-zinc-500 dark:text-zinc-400 text-sm mt-1" }, "Prioritize and execute.")
                     ),
                     React.createElement("div", { className: "flex items-center gap-4" },
-                        React.createElement("button", { onClick: onAIGenerate, className: "p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 flex items-center gap-2 text-sm font-bold shadow-glow-sm" }, React.createElement(Wand2, { size: 16 }), "Break Down Goal"),
                         React.createElement("span", { className: "text-zinc-400 dark:text-zinc-500 text-xs font-mono uppercase tracking-widest hidden md:block" }, new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }))
                     )
                 ),
@@ -542,7 +571,6 @@
                         React.createElement("h2", { className: "text-3xl font-bold text-zinc-900 dark:text-white" }, "Weekly Nutrition"),
                         React.createElement("div", { className: "text-zinc-500 dark:text-zinc-400 text-sm" }, "Plan your fuel.")
                     ),
-                    React.createElement("button", { onClick: onAIGenerate, className: "p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 flex items-center gap-2 text-sm font-bold shadow-glow-sm" }, React.createElement(Wand2, { size: 16 }), "Generate Plan")
                 ),
                 React.createElement("div", { className: "space-y-8" },
                     days.map(day => 
@@ -597,7 +625,6 @@
                         React.createElement("h2", { className: "text-3xl font-bold text-zinc-900 dark:text-white" }, "Fitness Plan"),
                      ),
                      React.createElement("div", { className: "flex gap-2" },
-                         React.createElement("button", { onClick: onAIGenerate, className: "p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 flex items-center gap-2 text-sm font-bold shadow-glow-sm mr-2" }, React.createElement(Wand2, { size: 16 }), "Generate Routine"),
                          React.createElement("div", { className: "flex gap-2 p-1 bg-zinc-100 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800" }, 
                              React.createElement("button", { onClick: () => setPlanType('gym'), className: `px-4 py-1.5 text-sm rounded-md transition-all ${planType === 'gym' ? 'bg-white dark:bg-indigo-600 text-indigo-600 dark:text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300'}` }, "Gym"),
                              React.createElement("button", { onClick: () => setPlanType('home'), className: `px-4 py-1.5 text-sm rounded-md transition-all ${planType === 'home' ? 'bg-white dark:bg-indigo-600 text-indigo-600 dark:text-white shadow-sm' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300'}` }, "Home")
@@ -770,7 +797,7 @@
                 let list;
                 if (parts.length > 1) list = safeData[parts[0]][parts[1]] || [];
                 else list = safeData[path] || [];
-                updateSection(path, [...list, { id: Date.now().toString(), text, completed: false }]);
+                updateSection(path, [...list, { id: generateUUID(), text, completed: false }]);
             };
 
             const toggleItem = (path, id) => {
@@ -791,7 +818,7 @@
 
             const updateMainFocus = (idx, text) => {
                 const newFocus = [...safeData.mainFocus];
-                if (!newFocus[idx]) newFocus[idx] = { id: Date.now().toString(), text: "" };
+                if (!newFocus[idx]) newFocus[idx] = { id: generateUUID(), text: "" };
                 newFocus[idx].text = text;
                 updateSection('mainFocus', newFocus);
             };
@@ -1188,8 +1215,6 @@
             }, [darkMode]);
 
             const [user, setUser] = useState(null);
-            const [apiKey, setApiKey] = useState(() => localStorage.getItem('lifeos_gemini_api_key') || "");
-            const [showSettings, setShowSettings] = useState(false);
             
             // App Data
             const [deadlines, setDeadlines] = useState([]);
@@ -1402,7 +1427,7 @@
 
             // Handlers
             const handleAddDeadline = async (item) => {
-                const newItem = { ...item, id: Date.now().toString(), user_id: user.id };
+                const newItem = { ...item, id: generateUUID(), user_id: user.id };
                 setDeadlines(prev => [...prev, newItem]);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('deadlines').insert(newItem);
             };
@@ -1411,9 +1436,12 @@
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('deadlines').delete().eq('id', id);
             };
             const handleAddTask = async (item) => {
-                const newItem = { ...item, id: Date.now().toString(), user_id: user.id };
+                const newItem = { ...item, id: generateUUID(), user_id: user.id };
                 setTasks(prev => [...prev, newItem]);
-                if (!user.isLocal && isSupabaseConfigured) await supabase.from('tasks').insert(newItem);
+                if (!user.isLocal && isSupabaseConfigured) {
+                    const { error } = await supabase.from('tasks').insert(newItem);
+                    if (error) console.error("Error saving task:", error);
+                }
             };
             const handleDeleteTask = async (id) => {
                 setTasks(prev => prev.filter(t => t.id !== id));
@@ -1424,7 +1452,7 @@
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('tasks').update(updates).eq('id', id);
             };
             const handleAddDump = async (text) => {
-                const newItem = { text, id: Date.now().toString(), user_id: user.id };
+                const newItem = { text, id: generateUUID(), user_id: user.id };
                 setDumps(prev => [...prev, newItem]);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('brain_dumps').insert(newItem);
             };
@@ -1435,7 +1463,7 @@
             
             // New Feature Handlers
             const handleAddTool = async (item) => {
-                const newItem = { ...item, id: Date.now().toString(), user_id: user.id };
+                const newItem = { ...item, id: generateUUID(), user_id: user.id };
                 setTools(prev => [...prev, newItem]);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('tools').insert(newItem);
             };
@@ -1445,7 +1473,7 @@
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('app_data').upsert({ user_id: user.id, tool_categories: newCats }, { onConflict: 'user_id' });
             };
             const handleAddWish = async (item) => {
-                const newItem = { ...item, id: Date.now().toString(), user_id: user.id };
+                const newItem = { ...item, id: generateUUID(), user_id: user.id };
                 setWishlist(prev => [...prev, newItem]);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('wishlist').insert(newItem);
             };
@@ -1454,7 +1482,7 @@
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('wishlist').delete().eq('id', id);
             };
             const handleAddBook = async (book) => {
-                const newItem = { ...book, id: Date.now().toString(), user_id: user.id };
+                const newItem = { ...book, id: generateUUID(), user_id: user.id };
                 setBooks(prev => [...prev, newItem]);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('library').insert(newItem);
             };
@@ -1464,7 +1492,7 @@
             };
 
             const handleAddSpiritualNote = async (text) => {
-                const newItem = { text, id: Date.now().toString(), user_id: user.id };
+                const newItem = { text, id: generateUUID(), user_id: user.id };
                 setSpiritualNotes(prev => [...prev, newItem]);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('spiritual_notes').insert(newItem);
             };
@@ -1476,7 +1504,7 @@
                 setMeals(prev => {
                     const exists = prev.find(m => m.day === day && m.type === type);
                     if(exists) return prev.map(m => m.day === day && m.type === type ? { ...m, text } : m);
-                    return [...prev, { day, type, text, user_id: user.id }];
+                    return [...prev, { day, type, text, user_id: user.id, id: generateUUID() }];
                 });
                 if (!user.isLocal && isSupabaseConfigured) {
                     await supabase.from('meals').delete().match({ user_id: user.id, day, type });
@@ -1494,47 +1522,9 @@
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('app_data').upsert({ user_id: user.id, dashboard_config: newData }, { onConflict: 'user_id' });
             };
             
-            const handleUpdateGoals = async (newData) => {
+            const handleUpdateGoals2026 = async (newData) => {
                 setGoalsData(newData);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('app_data').upsert({ user_id: user.id, goals_2026: newData }, { onConflict: 'user_id' });
-            };
-
-            // AI Handlers
-            const handleGenerateMealPlan = async () => {
-                if (!apiKey) { setShowSettings(true); return; }
-                const prompt = "Generate a structured weekly meal plan (Monday to Sunday) for Breakfast, Lunch, Dinner, and Snack. Return ONLY valid JSON array: [{ day: 'Monday', type: 'Breakfast', text: '...' }, ...]";
-                try {
-                    const result = await callGemini(apiKey, prompt);
-                    const jsonStr = result.replace(/```json/g, '').replace(/```/g, '');
-                    const newMeals = JSON.parse(jsonStr);
-                    setMeals(newMeals.map(m => ({ ...m, user_id: user.id })));
-                    if(!user.isLocal && isSupabaseConfigured) {
-                         await supabase.from('meals').delete().eq('user_id', user.id);
-                         await supabase.from('meals').insert(newMeals.map(m => ({ ...m, user_id: user.id })));
-                    }
-                } catch (e) { alert("AI Error: " + e.message); }
-            };
-
-            const handleGenerateWorkout = async () => {
-                if (!apiKey) { setShowSettings(true); return; }
-                const prompt = "Generate a 4-day gym workout split. Return valid JSON array for the plan: [{ id: 'gym1', title: 'Day 1: ...', icon: 'Flame', color: 'text-rose-500', warmup: ['...'], exercises: [{name: '...', sets: '3', reps: '10'}], finisher: '...' }, ...]";
-                try {
-                    const result = await callGemini(apiKey, prompt);
-                    const jsonStr = result.replace(/```json/g, '').replace(/```/g, '');
-                    const newPlan = JSON.parse(jsonStr);
-                    handleUpdateFitness('gym', newPlan);
-                } catch (e) { alert("AI Error: " + e.message); }
-            };
-
-            const handleBreakDownGoal = async () => {
-                if (!apiKey) { setShowSettings(true); return; }
-                const prompt = "Suggest 3 concrete daily tasks to achieve 'Financial Freedom'. Return JSON array of strings.";
-                try {
-                    const result = await callGemini(apiKey, prompt);
-                    const jsonStr = result.replace(/```json/g, '').replace(/```/g, '');
-                    const suggestions = JSON.parse(jsonStr);
-                    suggestions.forEach(s => handleAddTask({ text: s, category: 'normal', completed: false }));
-                } catch (e) { alert("AI Error: " + e.message); }
             };
 
             if (!user) return React.createElement(LandingPage, { onLoginSuccess: handleLoginSuccess, onGuestLogin: handleLoginSuccess });
@@ -1546,9 +1536,6 @@
                         VALID_TABS.map(t => React.createElement(NavItem, { key: t, icon: tabConfig[t].icon, label: tabConfig[t].label, active: activeTab === t, onClick: () => setActiveTab(t) }))
                     ),
                     React.createElement("div", { className: "pt-6 border-t border-zinc-200 dark:border-zinc-800 space-y-2" },
-                        React.createElement("button", { onClick: () => setShowSettings(true), className: "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 mb-2" }, 
-                            React.createElement(Settings, { size: 20 }), "Settings"
-                        ),
                         React.createElement("button", { onClick: () => setDarkMode(!darkMode), className: "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 mb-2" }, 
                             darkMode ? React.createElement(Sun, { size: 20 }) : React.createElement(Moon, { size: 20 }), 
                             darkMode ? "Light Mode" : "Dark Mode"
@@ -1565,39 +1552,16 @@
                         books: books, meals: meals, fitnessData: fitnessData
                     }),
                     activeTab === 'deadlines' && React.createElement(DeadlinesView, { deadlines, onAddDeadline: handleAddDeadline, onDeleteDeadline: handleDeleteDeadline }),
-                    activeTab === 'tasks' && React.createElement(TasksView, { tasks, onAddTask: handleAddTask, onDeleteTask: handleDeleteTask, onUpdateTask: handleUpdateTask, onAIGenerate: handleBreakDownGoal }),
-                    activeTab === 'goals2026' && React.createElement(Goals2026View, { goalsData, onUpdateGoals: handleUpdateGoals }),
+                    activeTab === 'tasks' && React.createElement(TasksView, { tasks, onAddTask: handleAddTask, onDeleteTask: handleDeleteTask, onUpdateTask: handleUpdateTask }),
+                    activeTab === 'goals2026' && React.createElement(Goals2026View, { goalsData, onUpdateGoals: handleUpdateGoals2026 }),
                     activeTab === 'focus' && React.createElement(FocusView, { activeSound, isPlayingSound, toggleSound, timerState: focusState, toggleTimer: handleTimerToggle, resetTimer: handleTimerReset }),
                     activeTab === 'braindump' && React.createElement(BrainDumpView, { dumps, onAddDump: handleAddDump, onDeleteDump: handleDeleteDump }),
                     activeTab === 'spirituality' && React.createElement(SpiritualityView, { notes: spiritualNotes, onAddNote: handleAddSpiritualNote, onDeleteNote: handleDeleteSpiritualNote }),
-                    activeTab === 'fitness' && React.createElement(FitnessView, { fitnessData, onUpdateFitness: handleUpdateFitness, onAIGenerate: handleGenerateWorkout }),
-                    activeTab === 'food' && React.createElement(FoodView, { meals, onUpdateMeal: handleUpdateMeal, onAIGenerate: handleGenerateMealPlan }),
-                    // New Tabs
+                    activeTab === 'fitness' && React.createElement(FitnessView, { fitnessData, onUpdateFitness: handleUpdateFitness }),
+                    activeTab === 'food' && React.createElement(FoodView, { meals, onUpdateMeal: handleUpdateMeal }),
                     activeTab === 'tools' && React.createElement(ToolsView, { tools, categories: toolCategories, onAddTool: handleAddTool, onAddCategory: handleAddCategory }),
                     activeTab === 'wishlist' && React.createElement(WishlistView, { wishlist, onAddItem: handleAddWish, onDeleteItem: handleDeleteWish }),
                     activeTab === 'library' && React.createElement(LibraryView, { books, onAddBook: handleAddBook, onDeleteBook: handleDeleteBook })
-                ),
-                
-                // Settings Modal
-                showSettings && React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" },
-                    React.createElement("div", { className: "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full max-w-md p-6 relative shadow-xl" },
-                        React.createElement("button", { onClick: () => setShowSettings(false), className: "absolute top-4 right-4 text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(X, { size: 20 })),
-                        React.createElement("h3", { className: "text-xl font-bold text-zinc-900 dark:text-white mb-4" }, "Settings"),
-                        React.createElement("div", { className: "space-y-4" },
-                            React.createElement("div", null,
-                                React.createElement("label", { className: "text-sm font-bold text-zinc-700 dark:text-zinc-300 block mb-2" }, "Gemini API Key"),
-                                React.createElement("input", { 
-                                    value: apiKey, 
-                                    onChange: (e) => { setApiKey(e.target.value); localStorage.setItem('lifeos_gemini_api_key', e.target.value); },
-                                    type: "password",
-                                    placeholder: "Enter your API Key...", 
-                                    className: "w-full p-3 rounded-xl bg-zinc-100 dark:bg-black/50 border border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white focus:outline-none focus:border-indigo-500" 
-                                }),
-                                React.createElement("p", { className: "text-xs text-zinc-500 mt-2" }, "Required for AI features. Your key is stored locally in your browser.")
-                            ),
-                            React.createElement("button", { onClick: () => setShowSettings(false), className: "w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-500" }, "Save & Close")
-                        )
-                    )
                 )
             );
         };

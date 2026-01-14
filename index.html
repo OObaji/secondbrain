@@ -364,7 +364,7 @@
         };
 
         // --- DASHBOARD VIEW ---
-        const DashboardView = ({ onNavigate, tasks = [], deadlines = [], dashboardData = {}, onUpdateDashboard, timerState, toggleTimer, resetTimer, books = [], meals = [], fitnessData = {} }) => {
+        const DashboardView = ({ onNavigate, deadlines = [], dashboardData = {}, onUpdateDashboard, timerState, toggleTimer, resetTimer, books = [], meals = [], fitnessData = {} }) => {
             const dailyFocus = dashboardData?.focus || "";
             const positiveNote = dashboardData?.positiveNote || "";
             const dailyRules = dashboardData?.dailyRules || { p: false, s: false, w: false, t: false, r: false };
@@ -418,14 +418,6 @@
 
                 React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" },
                      
-                     // Task Counter
-                     React.createElement(Card, { title: "Active Tasks", action: React.createElement("button", { onClick: () => onNavigate('tasks'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(ArrowRight, { size: 16 })) },
-                        React.createElement("div", { className: "flex items-center justify-between" },
-                             React.createElement("span", { className: "text-4xl font-bold text-zinc-900 dark:text-white" }, tasks.length),
-                             React.createElement(ListTodo, { className: "text-zinc-200 dark:text-zinc-700", size: 48 })
-                        )
-                     ),
-
                      // Currently Reading
                      React.createElement(Card, { title: "Now Reading", action: React.createElement("button", { onClick: () => onNavigate('library'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(Book, { size: 16 })) },
                         currentBook ? React.createElement("div", null,
@@ -442,7 +434,7 @@
                         )
                      ),
 
-                     // Next Deadline
+                     // Next Deadline (Kept for data consistency, though tab is hidden in this menu config)
                      React.createElement(Card, { title: "Next Deadline", action: React.createElement("button", { onClick: () => onNavigate('deadlines'), className: "text-zinc-400 hover:text-zinc-900 dark:hover:text-white" }, React.createElement(Hourglass, { size: 16 })) },
                         deadlines[0] ? React.createElement("div", null, 
                             React.createElement("p", { className: "font-bold text-zinc-900 dark:text-white truncate" }, deadlines[0].title),
@@ -480,12 +472,12 @@
             );
         };
 
-        // --- TASKS VIEW ---
-        const TasksView = ({ tasks, onAddTask, onDeleteTask, onUpdateTask, onAIGenerate }) => {
+        // --- TASKS VIEW (Restored) ---
+        const TasksView = ({ tasks, onAddTask, onDeleteTask, onUpdateTask }) => {
             const TaskBox = ({ title, category, colorClass, icon: Icon }) => {
                 const [input, setInput] = useState("");
                 const categoryTasks = tasks.filter(t => t.category === category || (category === 'normal' && !['hardest', 'easiest'].includes(t.category)));
-                const isFull = categoryTasks.length >= 1;
+                const isFull = categoryTasks.length >= 1 && category !== 'normal';
 
                 return React.createElement("div", { className: "flex flex-col h-full bg-white/50 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-lg" },
                     React.createElement("div", { className: `p-4 border-b border-zinc-200 dark:border-zinc-800 ${colorClass} bg-opacity-10 backdrop-blur-sm flex justify-between items-center` },
@@ -504,7 +496,7 @@
                         ))
                     ),
                     React.createElement("div", { className: "p-3 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50" },
-                        isFull ? 
+                        (category !== 'normal' && isFull) ? 
                         React.createElement("div", { className: "w-full py-3 text-center opacity-50" }, React.createElement("span", { className: "text-xs font-medium text-zinc-500" }, "Daily limit reached")) :
                         React.createElement("div", { className: "relative group/input" },
                             React.createElement("input", { 
@@ -530,7 +522,6 @@
                         React.createElement("p", { className: "text-zinc-500 dark:text-zinc-400 text-sm mt-1" }, "Prioritize and execute.")
                     ),
                     React.createElement("div", { className: "flex items-center gap-4" },
-                        React.createElement("button", { onClick: onAIGenerate, className: "p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 flex items-center gap-2 text-sm font-bold shadow-glow-sm" }, React.createElement(Wand2, { size: 16 }), "Break Down Goal"),
                         React.createElement("span", { className: "text-zinc-400 dark:text-zinc-500 text-xs font-mono uppercase tracking-widest hidden md:block" }, new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }))
                     )
                 ),
@@ -1160,20 +1151,20 @@
         const App = () => {
             const tabConfig = {
                 dashboard: { label: "Dashboard", icon: Layout },
-                deadlines: { label: "Deadlines", icon: Hourglass },
                 goals2026: { label: "2026 Plan", icon: Flag },
-                tasks: { label: "Daily Tasks", icon: ListTodo },
+                tasks: { label: "Daily Tasks", icon: CheckCircle2 },
                 focus: { label: "Focus Mode", icon: Timer },
                 braindump: { label: "Brain Dump", icon: FileText },
-                spirituality: { label: "Spirituality", icon: Flower2 },
-                food: { label: "Food Plan", icon: Utensils },
+                library: { label: "Library", icon: Library },
                 fitness: { label: "Fitness", icon: Dumbbell },
-                tools: { label: "Tools", icon: Wrench },
+                food: { label: "Food Plan", icon: Utensils },
+                spirituality: { label: "Spirituality", icon: Flower2 },
                 wishlist: { label: "Wishlist", icon: Gift },
-                library: { label: "Library", icon: Library }
+                tools: { label: "Tools", icon: Wrench },
+                // deadlines: { label: "Deadlines", icon: Hourglass }, // Hidden from menu as requested, but logic kept for dashboard
             };
 
-            const VALID_TABS = Object.keys(tabConfig);
+            const VALID_TABS = [...Object.keys(tabConfig), 'deadlines'];
             const [activeTab, setActiveTab] = useState(() => {
                 const saved = localStorage.getItem('lifeos_active_tab');
                 return (saved && VALID_TABS.includes(saved)) ? saved : "dashboard";
@@ -1298,22 +1289,8 @@
                         const { data: dData } = await supabase.from('deadlines').select('*').eq('user_id', user.id);
                         if(dData) setDeadlines(dData);
 
-                        // Tasks with Daily Reset
                         const { data: tData } = await supabase.from('tasks').select('*').eq('user_id', user.id);
-                        
-                        // Check last reset date
-                        const { data: metaData } = await supabase.from('app_data').select('tasks_last_reset').eq('user_id', user.id).single();
-                        const today = getTodayString(); // Fixed: Use consistent YYYY-MM-DD format
-                        
-                        if (tData && tData.length > 0 && (!metaData || metaData.tasks_last_reset !== today)) {
-                             // Reset tasks in DB
-                             await supabase.from('tasks').delete().eq('user_id', user.id);
-                             // Update reset date
-                             await supabase.from('app_data').upsert({ user_id: user.id, tasks_last_reset: today }, { onConflict: 'user_id' });
-                             setTasks([]);
-                        } else if (tData) {
-                             setTasks(tData);
-                        }
+                        if(tData) setTasks(tData);
 
                         const { data: bData } = await supabase.from('brain_dumps').select('*').eq('user_id', user.id);
                         if(bData) setDumps(bData);
@@ -1352,20 +1329,7 @@
                     try {
                         const prefix = `lifeos_data_${user.id}_`;
                         setDeadlines(JSON.parse(localStorage.getItem(`${prefix}deadlines`) || '[]'));
-                        
-                        // Daily Reset Local
-                        const savedTasks = JSON.parse(localStorage.getItem(`${prefix}tasks`) || '[]');
-                        const lastTaskDate = localStorage.getItem(`${prefix}tasks_date`);
-                        const today = getTodayString(); // Fixed: Use consistent YYYY-MM-DD format
-
-                        if (lastTaskDate !== today) {
-                            setTasks([]); 
-                            localStorage.setItem(`${prefix}tasks`, '[]');
-                            localStorage.setItem(`${prefix}tasks_date`, today);
-                        } else {
-                            setTasks(savedTasks);
-                        }
-
+                        setTasks(JSON.parse(localStorage.getItem(`${prefix}tasks`) || '[]'));
                         setDumps(JSON.parse(localStorage.getItem(`${prefix}dumps`) || '[]'));
                         setMeals(JSON.parse(localStorage.getItem(`${prefix}meals`) || JSON.stringify(DEFAULT_MEALS)));
                         setGoalsData(JSON.parse(localStorage.getItem(`${prefix}goals_2026`) || JSON.stringify(DEFAULT_GOALS_DATA)));
@@ -1422,8 +1386,10 @@
                 setDeadlines(prev => prev.filter(i => i.id !== id));
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('deadlines').delete().eq('id', id);
             };
-            const handleAddTask = async (item) => {
-                const newItem = { ...item, id: generateUUID(), user_id: user.id };
+            
+            // Task Handlers
+            const handleAddTask = async (task) => {
+                const newItem = { ...task, id: generateUUID(), user_id: user.id };
                 setTasks(prev => [...prev, newItem]);
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('tasks').insert(newItem);
             };
@@ -1435,6 +1401,7 @@
                 setTasks(prev => prev.map(t => t.id === id ? { ...t, ...updates } : t));
                 if (!user.isLocal && isSupabaseConfigured) await supabase.from('tasks').update(updates).eq('id', id);
             };
+
             const handleAddDump = async (text) => {
                 const newItem = { text, id: generateUUID(), user_id: user.id };
                 setDumps(prev => [...prev, newItem]);
@@ -1517,7 +1484,7 @@
                 React.createElement("aside", { className: "fixed left-0 top-0 h-full w-64 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 hidden md:flex flex-col z-20" },
                     React.createElement("h1", { className: "text-2xl font-bold mb-8" }, "LifeOS"),
                     React.createElement("nav", { className: "space-y-2 flex-1 overflow-y-auto no-scrollbar" },
-                        VALID_TABS.map(t => React.createElement(NavItem, { key: t, icon: tabConfig[t].icon, label: tabConfig[t].label, active: activeTab === t, onClick: () => setActiveTab(t) }))
+                        Object.keys(tabConfig).map(t => React.createElement(NavItem, { key: t, icon: tabConfig[t].icon, label: tabConfig[t].label, active: activeTab === t, onClick: () => setActiveTab(t) }))
                     ),
                     React.createElement("div", { className: "pt-6 border-t border-zinc-200 dark:border-zinc-800 space-y-2" },
                         React.createElement("button", { onClick: () => setDarkMode(!darkMode), className: "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 mb-2" }, 
@@ -1531,13 +1498,13 @@
                 React.createElement(MobileNavBar, { activeTab, setActiveTab, tabConfig }),
                 React.createElement("main", { className: "md:ml-64 p-4 md:p-12 pb-24 pt-20 md:pt-12 max-w-7xl mx-auto" },
                     activeTab === 'dashboard' && React.createElement(DashboardView, { 
-                        onNavigate: setActiveTab, tasks, deadlines, dashboardData, onUpdateDashboard: handleUpdateDashboard,
+                        onNavigate: setActiveTab, deadlines, dashboardData, onUpdateDashboard: handleUpdateDashboard,
                         timerState: focusState, toggleTimer: handleTimerToggle, resetTimer: handleTimerReset,
                         books: books, meals: meals, fitnessData: fitnessData
                     }),
-                    activeTab === 'deadlines' && React.createElement(DeadlinesView, { deadlines, onAddDeadline: handleAddDeadline, onDeleteDeadline: handleDeleteDeadline }),
-                    activeTab === 'tasks' && React.createElement(TasksView, { tasks, onAddTask: handleAddTask, onDeleteTask: handleDeleteTask, onUpdateTask: handleUpdateTask }),
                     activeTab === 'goals2026' && React.createElement(Goals2026View, { goalsData, onUpdateGoals: handleUpdateGoals2026 }),
+                    activeTab === 'tasks' && React.createElement(TasksView, { tasks, onAddTask: handleAddTask, onDeleteTask: handleDeleteTask, onUpdateTask: handleUpdateTask }),
+                    activeTab === 'deadlines' && React.createElement(DeadlinesView, { deadlines, onAddDeadline: handleAddDeadline, onDeleteDeadline: handleDeleteDeadline }),
                     activeTab === 'focus' && React.createElement(FocusView, { activeSound, isPlayingSound, toggleSound, timerState: focusState, toggleTimer: handleTimerToggle, resetTimer: handleTimerReset }),
                     activeTab === 'braindump' && React.createElement(BrainDumpView, { dumps, onAddDump: handleAddDump, onDeleteDump: handleDeleteDump }),
                     activeTab === 'spirituality' && React.createElement(SpiritualityView, { notes: spiritualNotes, onAddNote: handleAddSpiritualNote, onDeleteNote: handleDeleteSpiritualNote }),
